@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1079E7D029ACBBC300D16854 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 1079E7CF29ACBBC300D16854 /* .gitignore */; };
+		B5B96ACC29ACD217009B31BB /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B96ACB29ACD217009B31BB /* Keys.swift */; };
 		B5B96ACE29ACD240009B31BB /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B96ACD29ACD240009B31BB /* NetworkService.swift */; };
 		B5FC5B8D29ACA0E40083631C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FC5B8C29ACA0E40083631C /* AppDelegate.swift */; };
 		B5FC5B8F29ACA0E40083631C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FC5B8E29ACA0E40083631C /* SceneDelegate.swift */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		1079E7CF29ACBBC300D16854 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		B5B96ACB29ACD217009B31BB /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		B5B96ACD29ACD240009B31BB /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		B5FC5B8929ACA0E40083631C /* spoonacularRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = spoonacularRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5FC5B8C29ACA0E40083631C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -52,6 +54,7 @@
 		B5B96ACA29ACD20B009B31BB /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				B5B96ACB29ACD217009B31BB /* Keys.swift */,
 				B5B96ACD29ACD240009B31BB /* NetworkService.swift */,
 			);
 			path = Service;
@@ -219,6 +222,7 @@
 				B5FC5BA729ACA3EC0083631C /* DetailRecipeViewController.swift in Sources */,
 				B5B96ACE29ACD240009B31BB /* NetworkService.swift in Sources */,
 				B5FC5BAE29ACB5B40083631C /* TabBarController.swift in Sources */,
+				B5B96ACC29ACD217009B31BB /* Keys.swift in Sources */,
 				B5FC5B8F29ACA0E40083631C /* SceneDelegate.swift in Sources */,
 				B5FC5BA929ACA40B0083631C /* FavoriteViewController.swift in Sources */,
 			);

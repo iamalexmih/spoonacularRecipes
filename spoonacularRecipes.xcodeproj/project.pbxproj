@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1079E7D029ACBBC300D16854 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 1079E7CF29ACBBC300D16854 /* .gitignore */; };
+		10A8E4DF29AD6054009D2134 /* CateroryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A8E4DE29AD6054009D2134 /* CateroryCell.swift */; };
 		B5B96ACE29ACD240009B31BB /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B96ACD29ACD240009B31BB /* NetworkService.swift */; };
-		B5B96AD029ACD449009B31BB /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B96ACF29ACD449009B31BB /* Keys.swift */; };
 		B5FC5B8D29ACA0E40083631C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FC5B8C29ACA0E40083631C /* AppDelegate.swift */; };
 		B5FC5B8F29ACA0E40083631C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FC5B8E29ACA0E40083631C /* SceneDelegate.swift */; };
 		B5FC5B9129ACA0E40083631C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FC5B9029ACA0E40083631C /* MainViewController.swift */; };
@@ -24,8 +24,8 @@
 
 /* Begin PBXFileReference section */
 		1079E7CF29ACBBC300D16854 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		10A8E4DE29AD6054009D2134 /* CateroryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CateroryCell.swift; sourceTree = "<group>"; };
 		B5B96ACD29ACD240009B31BB /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		B5B96ACF29ACD449009B31BB /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		B5FC5B8929ACA0E40083631C /* spoonacularRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = spoonacularRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5FC5B8C29ACA0E40083631C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5FC5B8E29ACA0E40083631C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -51,11 +51,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		10A8E4D929AD5817009D2134 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B5FC5BAA29ACA4230083631C /* CategoryRecipesViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		10A8E4DD29AD6027009D2134 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				10A8E4DE29AD6054009D2134 /* CateroryCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		B5B96ACA29ACD20B009B31BB /* Service */ = {
 			isa = PBXGroup;
 			children = (
 				B5B96ACD29ACD240009B31BB /* NetworkService.swift */,
-				B5B96ACF29ACD449009B31BB /* Keys.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -139,7 +154,8 @@
 		B5FC5BA529ACA3660083631C /* CategoryRecipesScreen */ = {
 			isa = PBXGroup;
 			children = (
-				B5FC5BAA29ACA4230083631C /* CategoryRecipesViewController.swift */,
+				10A8E4DD29AD6027009D2134 /* Cell */,
+				10A8E4D929AD5817009D2134 /* Controller */,
 			);
 			path = CategoryRecipesScreen;
 			sourceTree = "<group>";
@@ -219,11 +235,11 @@
 				B5FC5BAB29ACA4230083631C /* CategoryRecipesViewController.swift in Sources */,
 				B5FC5B9129ACA0E40083631C /* MainViewController.swift in Sources */,
 				B5FC5B8D29ACA0E40083631C /* AppDelegate.swift in Sources */,
+				10A8E4DF29AD6054009D2134 /* CateroryCell.swift in Sources */,
 				B5FC5BA729ACA3EC0083631C /* DetailRecipeViewController.swift in Sources */,
 				B5B96ACE29ACD240009B31BB /* NetworkService.swift in Sources */,
 				B5FC5BAE29ACB5B40083631C /* TabBarController.swift in Sources */,
 				B5FC5B8F29ACA0E40083631C /* SceneDelegate.swift in Sources */,
-				B5B96AD029ACD449009B31BB /* Keys.swift in Sources */,
 				B5FC5BA929ACA40B0083631C /* FavoriteViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

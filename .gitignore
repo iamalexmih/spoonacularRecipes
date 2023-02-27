@@ -11,7 +11,7 @@
 Icon
 
 # Secret keys
-Keys.swift
+Service/Keys.swift
 
 # Thumbnails
 ._*

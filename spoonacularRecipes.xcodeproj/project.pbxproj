@@ -9,21 +9,27 @@
 /* Begin PBXBuildFile section */
 		B5FC5B8D29ACA0E40083631C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FC5B8C29ACA0E40083631C /* AppDelegate.swift */; };
 		B5FC5B8F29ACA0E40083631C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FC5B8E29ACA0E40083631C /* SceneDelegate.swift */; };
-		B5FC5B9129ACA0E40083631C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FC5B9029ACA0E40083631C /* ViewController.swift */; };
+		B5FC5B9129ACA0E40083631C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FC5B9029ACA0E40083631C /* MainViewController.swift */; };
 		B5FC5B9429ACA0E40083631C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5FC5B9229ACA0E40083631C /* Main.storyboard */; };
 		B5FC5B9629ACA0E50083631C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5FC5B9529ACA0E50083631C /* Assets.xcassets */; };
 		B5FC5B9929ACA0E50083631C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5FC5B9729ACA0E50083631C /* LaunchScreen.storyboard */; };
+		B5FC5BA729ACA3EC0083631C /* DetailRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FC5BA629ACA3EC0083631C /* DetailRecipeViewController.swift */; };
+		B5FC5BA929ACA40B0083631C /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FC5BA829ACA40B0083631C /* FavoriteViewController.swift */; };
+		B5FC5BAB29ACA4230083631C /* CategoryRecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FC5BAA29ACA4230083631C /* CategoryRecipesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B5FC5B8929ACA0E40083631C /* spoonacularRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = spoonacularRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5FC5B8C29ACA0E40083631C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5FC5B8E29ACA0E40083631C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		B5FC5B9029ACA0E40083631C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B5FC5B9029ACA0E40083631C /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		B5FC5B9329ACA0E40083631C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B5FC5B9529ACA0E50083631C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B5FC5B9829ACA0E50083631C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B5FC5B9A29ACA0E50083631C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B5FC5BA629ACA3EC0083631C /* DetailRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecipeViewController.swift; sourceTree = "<group>"; };
+		B5FC5BA829ACA40B0083631C /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
+		B5FC5BAA29ACA4230083631C /* CategoryRecipesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRecipesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +62,66 @@
 		B5FC5B8B29ACA0E40083631C /* spoonacularRecipes */ = {
 			isa = PBXGroup;
 			children = (
-				B5FC5B8C29ACA0E40083631C /* AppDelegate.swift */,
-				B5FC5B8E29ACA0E40083631C /* SceneDelegate.swift */,
-				B5FC5B9029ACA0E40083631C /* ViewController.swift */,
-				B5FC5B9229ACA0E40083631C /* Main.storyboard */,
-				B5FC5B9529ACA0E50083631C /* Assets.xcassets */,
-				B5FC5B9729ACA0E50083631C /* LaunchScreen.storyboard */,
-				B5FC5B9A29ACA0E50083631C /* Info.plist */,
+				B5FC5BA029ACA18F0083631C /* Application */,
+				B5FC5BA229ACA20F0083631C /* MainScreen */,
+				B5FC5BA429ACA3390083631C /* DetailRecipeScreen */,
+				B5FC5BA329ACA2350083631C /* FavoriteScreen */,
+				B5FC5BA529ACA3660083631C /* CategoryRecipesScreen */,
+				B5FC5BA129ACA1A30083631C /* Resource */,
 			);
 			path = spoonacularRecipes;
+			sourceTree = "<group>";
+		};
+		B5FC5BA029ACA18F0083631C /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				B5FC5B8C29ACA0E40083631C /* AppDelegate.swift */,
+				B5FC5B8E29ACA0E40083631C /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		B5FC5BA129ACA1A30083631C /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				B5FC5B9529ACA0E50083631C /* Assets.xcassets */,
+				B5FC5B9A29ACA0E50083631C /* Info.plist */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		B5FC5BA229ACA20F0083631C /* MainScreen */ = {
+			isa = PBXGroup;
+			children = (
+				B5FC5B9029ACA0E40083631C /* MainViewController.swift */,
+				B5FC5B9229ACA0E40083631C /* Main.storyboard */,
+				B5FC5B9729ACA0E50083631C /* LaunchScreen.storyboard */,
+			);
+			path = MainScreen;
+			sourceTree = "<group>";
+		};
+		B5FC5BA329ACA2350083631C /* FavoriteScreen */ = {
+			isa = PBXGroup;
+			children = (
+				B5FC5BA829ACA40B0083631C /* FavoriteViewController.swift */,
+			);
+			path = FavoriteScreen;
+			sourceTree = "<group>";
+		};
+		B5FC5BA429ACA3390083631C /* DetailRecipeScreen */ = {
+			isa = PBXGroup;
+			children = (
+				B5FC5BA629ACA3EC0083631C /* DetailRecipeViewController.swift */,
+			);
+			path = DetailRecipeScreen;
+			sourceTree = "<group>";
+		};
+		B5FC5BA529ACA3660083631C /* CategoryRecipesScreen */ = {
+			isa = PBXGroup;
+			children = (
+				B5FC5BAA29ACA4230083631C /* CategoryRecipesViewController.swift */,
+			);
+			path = CategoryRecipesScreen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,9 +195,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5FC5B9129ACA0E40083631C /* ViewController.swift in Sources */,
+				B5FC5BAB29ACA4230083631C /* CategoryRecipesViewController.swift in Sources */,
+				B5FC5B9129ACA0E40083631C /* MainViewController.swift in Sources */,
 				B5FC5B8D29ACA0E40083631C /* AppDelegate.swift in Sources */,
+				B5FC5BA729ACA3EC0083631C /* DetailRecipeViewController.swift in Sources */,
 				B5FC5B8F29ACA0E40083631C /* SceneDelegate.swift in Sources */,
+				B5FC5BA929ACA40B0083631C /* FavoriteViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,7 +276,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -270,7 +330,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -289,12 +349,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 37FQQ4WXUX;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = spoonacularRecipes/Info.plist;
+				INFOPLIST_FILE = spoonacularRecipes/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -302,9 +363,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = alexei.poprotskii.spoonacularRecipes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -317,12 +381,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 37FQQ4WXUX;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = spoonacularRecipes/Info.plist;
+				INFOPLIST_FILE = spoonacularRecipes/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -330,9 +395,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = alexei.poprotskii.spoonacularRecipes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

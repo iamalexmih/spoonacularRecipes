@@ -53,14 +53,13 @@ class CategoryRecipesViewController: UIViewController {
         setupTableView()
         setConstraints()
     }
-    
 }
 
 // MARK: - Private methods, setup
 
 private extension CategoryRecipesViewController {
     func setup() {
-        // view settings
+        title = "Category Recipes"
         view.backgroundColor = .systemBackground
     }
     
@@ -77,6 +76,7 @@ private extension CategoryRecipesViewController {
         tableView.register(CateroryCell.self, forCellReuseIdentifier: String(describing: CateroryCell.self))
         
         tableView.dataSource = self
+        tableView.delegate = self
     }
     
     func setConstraints() {
@@ -105,5 +105,22 @@ extension CategoryRecipesViewController: UITableViewDataSource {
         cell.configure(title: textTitle, and: imageName)
         
         return cell
+    }
+}
+
+// MARK: - UITableViewDelegate
+
+extension CategoryRecipesViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! CateroryCell
+        let categoryType = cell.titleLabel.text!.lowercased()
+        
+        print("\(categoryType)")
+        
+        if let tabBarController = self.tabBarController,
+            let vc = tabBarController.viewControllers?[0] as? MainViewController {
+                // transfer data
+        }
     }
 }

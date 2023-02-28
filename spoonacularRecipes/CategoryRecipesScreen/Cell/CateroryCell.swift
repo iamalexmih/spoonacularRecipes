@@ -9,12 +9,12 @@ import UIKit
 
 class CateroryCell: UITableViewCell {
     
-    let offset: CGFloat = 20
-    let cellHeight: CGFloat = 200
-    let radius: CGFloat = 20
+    private let offset: CGFloat = 20
+    private let cellHeight: CGFloat = 200
+    private let radius: CGFloat = 20
     
-    let titleLabel = UILabel()
     let containerForlabel = UIView()
+    let titleLabel = UILabel()
     let foodImageView = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -34,7 +34,6 @@ class CateroryCell: UITableViewCell {
 // MARK: - Public methods
 
 extension CateroryCell {
-    
     /// set titleLabel and image for imageView
     func configure(title text: String, and imageName: String) {
         titleLabel.text = text
@@ -47,13 +46,11 @@ extension CateroryCell {
 
 private extension CateroryCell {
     func setup() {
-        
         // отключить выдиление ячейки (стиль выдиления)
         selectionStyle = .none
     }
     
     func setupTitle() {
-        
         containerForlabel.backgroundColor = .black.withAlphaComponent(0.3)
         containerForlabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(containerForlabel)

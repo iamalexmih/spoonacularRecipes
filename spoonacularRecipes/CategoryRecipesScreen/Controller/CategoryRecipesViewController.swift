@@ -10,7 +10,7 @@ import UIKit
 struct CategoryRecipes {
     
     let title: CategoryTypes
-    var Image: String {
+    var ImageName: String {
         return title.rawValue
     }
     
@@ -50,6 +50,7 @@ class CategoryRecipesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        setupTableView()
         setConstraints()
     }
     
@@ -61,10 +62,18 @@ private extension CategoryRecipesViewController {
     func setup() {
         // view settings
         view.backgroundColor = .systemBackground
-        
-        // tableView settings
+    }
+    
+    func setupTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
+        tableView.estimatedRowHeight = 200
+        
+        // отключить разделитеть между ячейками
+        tableView.separatorStyle = .none
+        // отключить индикатор вертикального скролла
+//        tableView.showsVerticalScrollIndicator = false
+
         tableView.register(CateroryCell.self, forCellReuseIdentifier: String(describing: CateroryCell.self))
         
         tableView.dataSource = self
@@ -74,7 +83,7 @@ private extension CategoryRecipesViewController {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            view.trailingAnchor.constraint(equalTo: tableView.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)])
     }
 }
@@ -84,13 +93,16 @@ private extension CategoryRecipesViewController {
 extension CategoryRecipesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        source.count % 2 == 0 ? source.count / 2 : source.count / 2 + 1
+        return source.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: CateroryCell.self), for: indexPath) as! CateroryCell
         
-        cell.configure(source[indexPath.row].title.rawValue)
+        let textTitle = source[indexPath.row].title.rawValue.capitalized
+        let imageName = source[indexPath.row].ImageName
+        
+        cell.configure(title: textTitle, and: imageName)
         
         return cell
     }

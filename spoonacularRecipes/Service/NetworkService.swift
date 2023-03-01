@@ -7,10 +7,17 @@
 
 import Foundation
 
+protocol NetworkServiceProtocol {
+    func getRecipesData(_ networkService: NetworkService, recipesData: Any)
+    func didFailWithError(error: Error)
+}
+
 
 class NetworkService {
     private let baseURL = "https://api.spoonacular.com/recipes"
     private let apiKey = "ec302cd3ae2e439b9558cc79d26c5efa"
+    
+    var delegate: NetworkServiceProtocol?
     
     // по id, конкретный рецепт
     func fetchRecipe(byID id: Int) {
@@ -34,15 +41,15 @@ class NetworkService {
         guard let url = URL(string: urlString) else { return }
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
-                print(error.localizedDescription)
+                self.delegate?.didFailWithError(error: error)
             }
             
             guard let data = data else { return }
             do {
                 let decodedData = try JSONDecoder().decode(type, from: data)
-                print(decodedData)
+                self.delegate?.getRecipesData(self, recipesData: decodedData)
             } catch {
-                print(error)
+                self.delegate?.didFailWithError(error: error)
             }
         }
         task.resume()

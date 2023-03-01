@@ -9,9 +9,26 @@ import UIKit
 
 class MainViewController: UIViewController {
 
+    let networkService = NetworkService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        networkService.delegate = self
+        
+        networkService.fetchRecipesPopularity()
     }
 }
 
+
+extension MainViewController: NetworkServiceProtocol {
+    func getRecipesData(_ networkService: NetworkService, recipesData: Any) {
+        if let recipes = recipesData as? ResultsData {
+            print(recipes.results)
+        }
+
+    }
+    
+    func didFailWithError(error: Error) {
+        print(error.localizedDescription)
+    }
+}

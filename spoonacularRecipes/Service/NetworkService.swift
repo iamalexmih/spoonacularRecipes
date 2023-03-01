@@ -38,7 +38,9 @@ class NetworkService {
     }
     
     private func performRequest(with urlString: String, type: Decodable.Type) {
-        guard let url = URL(string: urlString) else { return }
+        let newUrl = urlString.replacingOccurrences(of: " ", with: "%20")
+        guard let url = URL(string: newUrl) else { print("URL не создан"); return }
+        print(url)
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
                 self.delegate?.didFailWithError(error: error)

@@ -15,7 +15,8 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         networkService.delegate = self
         
-        networkService.fetchRecipesPopularity()
+//        networkService.fetchRecipesPopularity()
+        networkService.fetchRecipesPopularity(byType: "bread")
     }
 }
 

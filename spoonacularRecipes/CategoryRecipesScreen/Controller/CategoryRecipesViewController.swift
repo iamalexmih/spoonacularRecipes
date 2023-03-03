@@ -9,9 +9,9 @@ import UIKit
 
 class CategoryRecipesViewController: UIViewController {
     
-    let source: [CategoryRecipes] = CategoryRecipes.getAllCategories()
-    var recipes: [RecipeCard] = []
+    let source: [RecipeCard] = getAllCategories()
     let networkService = NetworkService()
+    var sectionName = "Category Recipes"
     
     let tableView = UITableView()
     
@@ -20,13 +20,6 @@ class CategoryRecipesViewController: UIViewController {
         setup()
         setupTableView()
         setConstraints()
-        
-        networkService.delegate = self
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        recipes = []
     }
 }
 
@@ -34,7 +27,7 @@ class CategoryRecipesViewController: UIViewController {
 
 private extension CategoryRecipesViewController {
     func setup() {
-        title = "Category Recipes"
+        title = sectionName
         view.backgroundColor = .systemBackground
     }
     
@@ -61,6 +54,15 @@ private extension CategoryRecipesViewController {
             view.trailingAnchor.constraint(equalTo: tableView.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)])
     }
+    
+    func getRecipesArrayFrom(data: ResultsData) -> [RecipeCard] {
+        var recipes: [RecipeCard] = []
+        for item in data.results {
+            recipes.append(RecipeCard(id: item.getId(), title: item.getTitle(), imageName: item.getImage()))
+        }
+        
+        return recipes
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -74,8 +76,8 @@ extension CategoryRecipesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: CateroryCell.self), for: indexPath) as! CateroryCell
         
-        let textTitle = source[indexPath.row].title.rawValue.capitalized
-        let imageName = source[indexPath.row].ImageName
+        let textTitle = source[indexPath.row].getTitle().capitalized
+        let imageName = source[indexPath.row].getImage()
         
         cell.configure(title: textTitle, and: imageName)
         
@@ -89,33 +91,21 @@ extension CategoryRecipesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! CateroryCell
-        let categoryType = cell.titleLabel.text!.lowercased()
-        
-        print("\(categoryType)")
-            
-        networkService.fetchRecipesPopularity(byType: categoryType)
-    }
-}
-
-extension CategoryRecipesViewController: NetworkServiceProtocol {
-    func getRecipesData(_ networkService: NetworkService, recipesData: Any) {
-        let allData = recipesData as! ResultsData
-        var arr: [RecipeCard] = []
-        for item in allData.results {
-            let recipeItem = RecipeCard(title: item.title, imageName: item.image)
-            arr.append(recipeItem)
+        let categoryType = cell.titleLabel.text!
+        networkService.fetchRecipesPopularity(byType: categoryType.lowercased()) { [weak self] (result) in
+            switch result {
+            case .success(let data):
+                if let recipes = self?.getRecipesArrayFrom(data: data) {
+                    DispatchQueue.main.async {
+                        let vc = MainViewController()
+                        vc.list = recipes
+                        vc.sectionName = categoryType
+                        self?.navigationController?.pushViewController(vc, animated: true)
+                    }
+                }
+            case .failure(let error):
+                print(error)
+            }
         }
-        
-        self.recipes.append(contentsOf: arr)
-        DispatchQueue.main.async {
-            let vc = MainViewController()
-            vc.list = self.recipes
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-        
-    }
-    
-    func didFailWithError(error: Error) {
-        print(error)
     }
 }

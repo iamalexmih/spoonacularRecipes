@@ -8,8 +8,9 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    var list: [RecipeCard] = RecipeCard.getAllPopular()
+    var list: [RecipeCard] = getAllCategories()
     let tableView = UITableView()
+    var sectionName = "Popular Recipes"
 
     let networkService = NetworkService()
     
@@ -22,14 +23,14 @@ class MainViewController: UIViewController {
         networkService.delegate = self
         
 //        networkService.fetchRecipesPopularity()
-        //networkService.fetchRecipesPopularity(byType: "bread")
+//        networkService.fetchRecipesPopularity(byType: "bread")
     }
 }
 
 //MARK: - Private Methods / Setup
 private extension MainViewController {
     func setup() {
-        title = "Popular Recipes"
+        title = sectionName
         //view.addGradientBackground(firstColor: .white, secondColor: .black)
         //view.addBlackGradientLayerInBackground(frame: view.bounds, colors: [.clear, .black])
         view.backgroundColor = .systemBackground
@@ -63,7 +64,7 @@ extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PopularCell.self), for: indexPath) as! PopularCell
         
-        let textTitle = list[indexPath.row].title.capitalized
+        let textTitle = list[indexPath.row].getTitle().capitalized
         //let imageName = list[indexPath.row].imageName
         let imageName = "beverage"
         cell.configureCell(title: textTitle, image: imageName)

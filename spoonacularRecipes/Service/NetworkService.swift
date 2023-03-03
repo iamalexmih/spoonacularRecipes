@@ -15,44 +15,79 @@ protocol NetworkServiceProtocol {
 
 class NetworkService {
     private let baseURL = "https://api.spoonacular.com/recipes"
-    private let apiKey = "ec302cd3ae2e439b9558cc79d26c5efa"
+    //private let apiKey = "ec302cd3ae2e439b9558cc79d26c5efa"
+    private let apiKey = "1d725eb876444268ae0f53d1bcbe8b44"
     
     var delegate: NetworkServiceProtocol?
     
     // по id, конкретный рецепт
-    func fetchRecipe(byID id: Int) {
+    func fetchRecipe(byID id: Int,
+                     completion: @escaping (Result<ResultsData, Error>) -> Void) {
         let urlString = "\(baseURL)/\(id)/information/?apiKey=\(apiKey)"
-        performRequest(with: urlString, type: DetailRecipe.self)
+        performRequest(with: urlString, type: DetailRecipe.self) { (result) in
+            switch result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
     
     // популярные рецепты
-    func fetchRecipesPopularity() {
+    func fetchRecipesPopularity(completion: @escaping (Result<ResultsData, Error>) -> Void) {
         let urlString = "\(baseURL)/complexSearch?apiKey=\(apiKey)&sort=popularity"
-        performRequest(with: urlString, type: ResultsData.self)
+        performRequest(with: urlString, type: ResultsData.self) { (result) in
+            switch result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
     
     // популярные категории
-    func fetchRecipesPopularity(byType type: String) {
+    func fetchRecipesPopularity(byType type: String,
+                                completion: @escaping (Result<ResultsData, Error>) -> Void) {
         let urlString = "\(baseURL)/complexSearch?apiKey=\(apiKey)&type=\(type)&sort=popularity"
-        print("\(urlString)")
-        performRequest(with: urlString, type: ResultsData.self)
+        performRequest(with: urlString, type: ResultsData.self) { (result) in
+            switch result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
     
-    private func performRequest(with urlString: String, type: Decodable.Type) {
+    private func performRequest(with urlString: String,
+                                type: Decodable.Type,
+                                completion: @escaping (Result<ResultsData, RecipeError>) -> Void) {
         let newUrl = urlString.replacingOccurrences(of: " ", with: "%20")
-        guard let url = URL(string: newUrl) else { print("URL не создан"); return }
+        guard let url = URL(string: newUrl) else {
+            completion(.failure(.urlNotCreate))
+            return
+            
+        }
         //print(url)
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                self.delegate?.didFailWithError(error: error)
+            guard error != nil else {
+                completion(.failure(.internetConnectionLost))
+                return
             }
             
-            guard let data = data else { return }
+            guard let data = data else {
+                completion(.failure(.dataError))
+                return
+                
+            }
             do {
-                let decodedData = try JSONDecoder().decode(type, from: data)
-                self.delegate?.getRecipesData(self, recipesData: decodedData)
-            } catch {
-                self.delegate?.didFailWithError(error: error)
+                if let decodedData = try? JSONDecoder().decode(ResultsData.self, from: data) {
+                    completion(.success(decodedData))
+                } else {
+                    completion(.failure(.decodeError))
+                }
             }
         }
         task.resume()

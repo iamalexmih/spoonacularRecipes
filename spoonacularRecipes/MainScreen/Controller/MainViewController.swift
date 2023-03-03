@@ -7,43 +7,10 @@
 
 import UIKit
 
-struct PopularRecipe {
-    
-    let title: PopularList
-    var imageName: String {
-        return title.rawValue
-    }
-    
-    static func getAllPopular() -> [PopularRecipe] {
-        var result: [PopularRecipe] = []
-        PopularList.allCases.forEach {
-            result.append(.init(title: $0))
-        }
-        return result
-    }
-    
-    enum PopularList: String, CaseIterable {
-        case mainCource = "main course"
-        case sideDish = "side dish"
-        case dessert
-        case appetizer
-        case salad
-        case bread
-        case breakfast
-        case soup
-        case beverage
-        case sauce
-        case marinade
-        case fingerfood
-        case snack
-        case drink
-    }
-    
-}
-
 class MainViewController: UIViewController {
-    let list: [PopularRecipe] = PopularRecipe.getAllPopular()
+    var list: [RecipeCard] = getAllCategories()
     let tableView = UITableView()
+    var sectionName = "Popular Recipes"
 
     let networkService = NetworkService()
     
@@ -56,14 +23,14 @@ class MainViewController: UIViewController {
         networkService.delegate = self
         
 //        networkService.fetchRecipesPopularity()
-        networkService.fetchRecipesPopularity(byType: "bread")
+//        networkService.fetchRecipesPopularity(byType: "bread")
     }
 }
 
 //MARK: - Private Methods / Setup
 private extension MainViewController {
     func setup() {
-        title = "Popular Recipes"
+        title = sectionName
         //view.addGradientBackground(firstColor: .white, secondColor: .black)
         //view.addBlackGradientLayerInBackground(frame: view.bounds, colors: [.clear, .black])
         view.backgroundColor = .systemBackground
@@ -97,8 +64,9 @@ extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PopularCell.self), for: indexPath) as! PopularCell
         
-        let textTitle = list[indexPath.row].title.rawValue.capitalized
-        let imageName = list[indexPath.row].imageName
+        let textTitle = list[indexPath.row].getTitle().capitalized
+        //let imageName = list[indexPath.row].imageName
+        let imageName = "beverage"
         cell.configureCell(title: textTitle, image: imageName)
         
         return cell
@@ -108,15 +76,16 @@ extension MainViewController: UITableViewDataSource {
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! PopularCell
-        let favoriteName = cell.titleLabel.text!
-        
-        if let tabBarController = self.tabBarController, let vc = tabBarController.viewControllers?[1] as? MainViewController {
-            
-        }
+//        let favoriteName = cell.titleLabel.text!
+//        
+//        if let tabBarController = self.tabBarController, let vc = tabBarController.viewControllers?[1] as? MainViewController {
+//            
+//        }
     }
 }
 
 extension MainViewController: NetworkServiceProtocol {
+    
     func getRecipesData(_ networkService: NetworkService, recipesData: Any) {
         if let recipes = recipesData as? ResultsData {
             print(recipes.results)

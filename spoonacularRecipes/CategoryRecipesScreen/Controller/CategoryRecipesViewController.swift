@@ -7,43 +7,11 @@
 
 import UIKit
 
-struct CategoryRecipes {
-    
-    let title: CategoryTypes
-    var ImageName: String {
-        return title.rawValue
-    }
-    
-    // возращает массив со всеми категориями
-    static func getAllCategories() -> [CategoryRecipes] {
-        var result: [CategoryRecipes] = []
-        CategoryTypes.allCases.forEach {
-            result.append(.init(title: $0))
-        }
-        return result
-    }
-    
-    enum CategoryTypes: String, CaseIterable {
-        case mainCource = "main course"
-        case sideDish = "side dish"
-        case dessert
-        case appetizer
-        case salad
-        case bread
-        case breakfast
-        case soup
-        case beverage
-        case sauce
-        case marinade
-        case fingerfood
-        case snack
-        case drink
-    }
-}
-
 class CategoryRecipesViewController: UIViewController {
     
-    let source: [CategoryRecipes] = CategoryRecipes.getAllCategories()
+    let source: [RecipeCard] = getAllCategories()
+    let networkService = NetworkService()
+    var sectionName = "Category Recipes"
     
     let tableView = UITableView()
     
@@ -59,7 +27,7 @@ class CategoryRecipesViewController: UIViewController {
 
 private extension CategoryRecipesViewController {
     func setup() {
-        title = "Category Recipes"
+        title = sectionName
         view.backgroundColor = .systemBackground
     }
     
@@ -86,6 +54,15 @@ private extension CategoryRecipesViewController {
             view.trailingAnchor.constraint(equalTo: tableView.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)])
     }
+    
+    func getRecipesArrayFrom(data: ResultsData) -> [RecipeCard] {
+        var recipes: [RecipeCard] = []
+        for item in data.results {
+            recipes.append(RecipeCard(id: item.getId(), title: item.getTitle(), imageName: item.getImage()))
+        }
+        
+        return recipes
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -99,8 +76,8 @@ extension CategoryRecipesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: CateroryCell.self), for: indexPath) as! CateroryCell
         
-        let textTitle = source[indexPath.row].title.rawValue.capitalized
-        let imageName = source[indexPath.row].ImageName
+        let textTitle = source[indexPath.row].getTitle().capitalized
+        let imageName = source[indexPath.row].getImage()
         
         cell.configure(title: textTitle, and: imageName)
         
@@ -114,13 +91,21 @@ extension CategoryRecipesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! CateroryCell
-        let categoryType = cell.titleLabel.text!.lowercased()
-        
-        print("\(categoryType)")
-        
-        if let tabBarController = self.tabBarController,
-            let vc = tabBarController.viewControllers?[0] as? MainViewController {
-                // transfer data
+        let categoryType = cell.titleLabel.text!
+        networkService.fetchRecipesPopularity(byType: categoryType.lowercased()) { [weak self] (result) in
+            switch result {
+            case .success(let data):
+                if let recipes = self?.getRecipesArrayFrom(data: data) {
+                    DispatchQueue.main.async {
+                        let vc = MainViewController()
+                        vc.list = recipes
+                        vc.sectionName = categoryType
+                        self?.navigationController?.pushViewController(vc, animated: true)
+                    }
+                }
+            case .failure(let error):
+                print(error)
+            }
         }
     }
 }

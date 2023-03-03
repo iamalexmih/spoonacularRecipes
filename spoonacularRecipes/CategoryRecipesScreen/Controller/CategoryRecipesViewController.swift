@@ -23,6 +23,11 @@ class CategoryRecipesViewController: UIViewController {
         
         networkService.delegate = self
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        recipes = []
+    }
 }
 
 // MARK: - Private methods, setup
@@ -89,16 +94,11 @@ extension CategoryRecipesViewController: UITableViewDelegate {
         print("\(categoryType)")
             
         networkService.fetchRecipesPopularity(byType: categoryType)
-        
-        let vc = MainViewController()
-        vc.list = recipes
-        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
 extension CategoryRecipesViewController: NetworkServiceProtocol {
     func getRecipesData(_ networkService: NetworkService, recipesData: Any) {
-        
         let allData = recipesData as! ResultsData
         var arr: [RecipeCard] = []
         for item in allData.results {
@@ -106,7 +106,13 @@ extension CategoryRecipesViewController: NetworkServiceProtocol {
             arr.append(recipeItem)
         }
         
-        recipes.append(contentsOf: arr)
+        self.recipes.append(contentsOf: arr)
+        DispatchQueue.main.async {
+            let vc = MainViewController()
+            vc.list = self.recipes
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
     }
     
     func didFailWithError(error: Error) {

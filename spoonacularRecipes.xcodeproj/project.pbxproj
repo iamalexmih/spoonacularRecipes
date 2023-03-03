@@ -22,6 +22,7 @@
 		B5FC5BA929ACA40B0083631C /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FC5BA829ACA40B0083631C /* FavoriteViewController.swift */; };
 		B5FC5BAB29ACA4230083631C /* CategoryRecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FC5BAA29ACA4230083631C /* CategoryRecipesViewController.swift */; };
 		B5FC5BAE29ACB5B40083631C /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FC5BAD29ACB5B40083631C /* TabBarController.swift */; };
+		F6945ED029B2984100B82BF6 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6945ECF29B2984100B82BF6 /* GradientView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		B5FC5BA829ACA40B0083631C /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		B5FC5BAA29ACA4230083631C /* CategoryRecipesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRecipesViewController.swift; sourceTree = "<group>"; };
 		B5FC5BAD29ACB5B40083631C /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		F6945ECF29B2984100B82BF6 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				B5FC5BAD29ACB5B40083631C /* TabBarController.swift */,
+				F6945ECF29B2984100B82BF6 /* GradientView.swift */,
 				B5FC5BA029ACA18F0083631C /* Application */,
 				B5FC5BA229ACA20F0083631C /* MainScreen */,
 				B5FC5BA429ACA3390083631C /* DetailRecipeScreen */,
@@ -279,6 +282,7 @@
 				00757E8429AF9C6F0044EA2A /* DetailRecipeData.swift in Sources */,
 				B5FC5BAE29ACB5B40083631C /* TabBarController.swift in Sources */,
 				B5FC5B8F29ACA0E40083631C /* SceneDelegate.swift in Sources */,
+				F6945ED029B2984100B82BF6 /* GradientView.swift in Sources */,
 				B5FC5BA929ACA40B0083631C /* FavoriteViewController.swift in Sources */,
 				00757E8229AF9C590044EA2A /* PopularRecipeData.swift in Sources */,
 			);

@@ -17,6 +17,8 @@ class PopularCell: UITableViewCell {
     let heartButton = UIButton()
     let containerForCell = UIView()
     
+    private var gradientView = GradientView()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -30,6 +32,12 @@ class PopularCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSublayers(of layer: CALayer) {
+        super.layoutSublayers(of: self.layer)
+        
+        gradientView = GradientView(frame: titleLabel.bounds)
     }
 }
 
@@ -49,17 +57,11 @@ extension PopularCell {
     func setupContainer() {
         //containerForCell.backgroundColor = .black.withAlphaComponent(0.3)
         containerForCell.layer.cornerRadius = offset
+        containerForCell.layer.masksToBounds = true
         containerForCell.translatesAutoresizingMaskIntoConstraints = false
         
-//        let gradient = CAGradientLayer()
-//        gradient.frame = containerForCell.frame
-//        let first = (UIColor.clear).cgColor
-//        let second = (UIColor.black).cgColor
-//
-//        gradient.colors = [first, second]
-//        containerForCell.layer.insertSublayer(gradient, at: 0)
-        
-        //self.view.layer.insertSublayer(gradientLayer, at: 0)
+        gradientView.translatesAutoresizingMaskIntoConstraints = false
+        containerForCell.addSubview(gradientView)
         
         addSubview(containerForCell)
     }
@@ -88,7 +90,6 @@ extension PopularCell {
         titleLabel.text = "How to make yam & vegetable sauce at home"
         titleLabel.numberOfLines = 0
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         containerForCell.addSubview(titleLabel)
     }
 }
@@ -111,14 +112,6 @@ extension PopularCell {
             containerForCell.trailingAnchor.constraint(equalTo: foodImageView.trailingAnchor)
         ])
         
-        let gradient = CAGradientLayer()
-        gradient.frame = containerForCell.frame
-        let first = (UIColor.clear).cgColor
-        let second = (UIColor.black).cgColor
-
-        gradient.colors = [first, second]
-        containerForCell.layer.insertSublayer(gradient, at: 0)
-        
         NSLayoutConstraint.activate([
             heartButton.topAnchor.constraint(equalTo: containerForCell.topAnchor, constant: offset/2),
             heartButton.trailingAnchor.constraint(equalTo: containerForCell.trailingAnchor, constant: -offset/2),
@@ -131,6 +124,13 @@ extension PopularCell {
             titleLabel.leadingAnchor.constraint(equalTo: containerForCell.leadingAnchor, constant: offset),
             titleLabel.trailingAnchor.constraint(equalTo: containerForCell.trailingAnchor, constant: -offset),
             titleLabel.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        NSLayoutConstraint.activate([
+            gradientView.topAnchor.constraint(equalTo: containerForCell.topAnchor, constant: 160),
+            gradientView.leadingAnchor.constraint(equalTo: containerForCell.leadingAnchor),
+            gradientView.trailingAnchor.constraint(equalTo: containerForCell.trailingAnchor),
+            gradientView.bottomAnchor.constraint(equalTo: containerForCell.bottomAnchor)
         ])
     }
 }

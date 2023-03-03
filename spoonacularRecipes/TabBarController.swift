@@ -17,11 +17,11 @@ final class TabBarController: UITabBarController {
         var title: String {
             switch self {
             case .main:
-                return "Популярное"
+                return "Popular Recipes"
             case .favourite:
-                return "Избранное"
+                return "Favourites"
             case .category:
-                return "Категории"
+                return "Category Recipes"
             }
         }
         

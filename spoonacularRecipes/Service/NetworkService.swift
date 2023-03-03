@@ -34,13 +34,14 @@ class NetworkService {
     // популярные категории
     func fetchRecipesPopularity(byType type: String) {
         let urlString = "\(baseURL)/complexSearch?apiKey=\(apiKey)&type=\(type)&sort=popularity"
+        print("\(urlString)")
         performRequest(with: urlString, type: ResultsData.self)
     }
     
     private func performRequest(with urlString: String, type: Decodable.Type) {
         let newUrl = urlString.replacingOccurrences(of: " ", with: "%20")
         guard let url = URL(string: newUrl) else { print("URL не создан"); return }
-        print(url)
+        //print(url)
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
                 self.delegate?.didFailWithError(error: error)

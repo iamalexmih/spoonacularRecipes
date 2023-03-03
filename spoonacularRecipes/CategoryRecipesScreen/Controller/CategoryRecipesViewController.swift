@@ -7,43 +7,11 @@
 
 import UIKit
 
-struct CategoryRecipes {
-    
-    let title: CategoryTypes
-    var ImageName: String {
-        return title.rawValue
-    }
-    
-    // возращает массив со всеми категориями
-    static func getAllCategories() -> [CategoryRecipes] {
-        var result: [CategoryRecipes] = []
-        CategoryTypes.allCases.forEach {
-            result.append(.init(title: $0))
-        }
-        return result
-    }
-    
-    enum CategoryTypes: String, CaseIterable {
-        case mainCource = "main course"
-        case sideDish = "side dish"
-        case dessert
-        case appetizer
-        case salad
-        case bread
-        case breakfast
-        case soup
-        case beverage
-        case sauce
-        case marinade
-        case fingerfood
-        case snack
-        case drink
-    }
-}
-
 class CategoryRecipesViewController: UIViewController {
     
     let source: [CategoryRecipes] = CategoryRecipes.getAllCategories()
+    var recipes: [RecipeCard] = []
+    let networkService = NetworkService()
     
     let tableView = UITableView()
     
@@ -52,6 +20,8 @@ class CategoryRecipesViewController: UIViewController {
         setup()
         setupTableView()
         setConstraints()
+        
+        networkService.delegate = self
     }
 }
 
@@ -117,10 +87,29 @@ extension CategoryRecipesViewController: UITableViewDelegate {
         let categoryType = cell.titleLabel.text!.lowercased()
         
         print("\(categoryType)")
+            
+        networkService.fetchRecipesPopularity(byType: categoryType)
         
-        if let tabBarController = self.tabBarController,
-            let vc = tabBarController.viewControllers?[0] as? MainViewController {
-                // transfer data
+        let vc = MainViewController()
+        vc.list = recipes
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension CategoryRecipesViewController: NetworkServiceProtocol {
+    func getRecipesData(_ networkService: NetworkService, recipesData: Any) {
+        
+        let allData = recipesData as! ResultsData
+        var arr: [RecipeCard] = []
+        for item in allData.results {
+            let recipeItem = RecipeCard(title: item.title, imageName: item.image)
+            arr.append(recipeItem)
         }
+        
+        recipes.append(contentsOf: arr)
+    }
+    
+    func didFailWithError(error: Error) {
+        print(error)
     }
 }

@@ -57,8 +57,8 @@ private extension CateroryCell {
         contentView.addSubview(containerForlabel)
 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.textColor = .black
-        titleLabel.font = UIFont(name: "Times New Roman", size: 40)
+        titleLabel.textColor = UIColor(named: "darkGray")
+        titleLabel.font = UIFont(name: "Impact", size: 50)
         titleLabel.textAlignment = .center
         titleLabel.text = "CateroryCell"
 

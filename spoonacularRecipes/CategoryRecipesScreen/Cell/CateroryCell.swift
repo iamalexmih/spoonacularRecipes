@@ -10,7 +10,6 @@ import UIKit
 class CateroryCell: UITableViewCell {
     
     private let offset: CGFloat = 20
-    private let cellHeight: CGFloat = 200
     private let radius: CGFloat = 20
     
     let containerForlabel = UIView()
@@ -48,48 +47,51 @@ private extension CateroryCell {
     func setup() {
         // отключить выдиление ячейки (стиль выдиления)
         selectionStyle = .none
+
     }
     
     func setupTitle() {
-        containerForlabel.backgroundColor = .black.withAlphaComponent(0.3)
+        containerForlabel.backgroundColor = .white.withAlphaComponent(0.5)
         containerForlabel.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(containerForlabel)
-        
+        containerForlabel.layer.cornerRadius = radius
+        contentView.addSubview(containerForlabel)
+
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.textColor = .white
-        titleLabel.font = .boldSystemFont(ofSize: 25)
+        titleLabel.textColor = .black
+        titleLabel.font = UIFont(name: "Times New Roman", size: 40)
+        titleLabel.textAlignment = .center
         titleLabel.text = "CateroryCell"
-        
+
         containerForlabel.addSubview(titleLabel)
     }
-    
+
     func setupFoodImageView() {
-        let foodImage = UIImage(named: "food")
+        let foodImage = UIImage(named: "dessert")
         foodImageView.translatesAutoresizingMaskIntoConstraints = false
         foodImageView.contentMode = .scaleToFill
         foodImageView.image = foodImage
         foodImageView.layer.cornerRadius = radius
         foodImageView.clipsToBounds = true
-        addSubview(foodImageView)
+        contentView.addSubview(foodImageView)
     }
-    
+//
     func setConstraints() {
         NSLayoutConstraint.activate([
-            foodImageView.topAnchor.constraint(equalTo: topAnchor, constant: offset / 2),
-            foodImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: offset),
-            self.trailingAnchor.constraint(equalTo: foodImageView.trailingAnchor, constant: offset),
-            foodImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            foodImageView.heightAnchor.constraint(equalToConstant: cellHeight),
-        
-            containerForlabel.topAnchor.constraint(equalTo: topAnchor, constant: 160),
-            containerForlabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: offset),
-            self.trailingAnchor.constraint(equalTo: containerForlabel.trailingAnchor, constant: offset),
-            containerForlabel.heightAnchor.constraint(equalToConstant: 30),
-        
+            foodImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: offset / 2),
+            foodImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: offset),
+            foodImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -offset),
+            foodImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -offset / 2),
+            
+            containerForlabel.topAnchor.constraint(equalTo: foodImageView.topAnchor, constant: offset),
+            containerForlabel.leadingAnchor.constraint(equalTo: foodImageView.leadingAnchor, constant: offset),
+            containerForlabel.trailingAnchor.constraint(equalTo: foodImageView.trailingAnchor, constant: -offset),
+            containerForlabel.bottomAnchor.constraint(equalTo: foodImageView.bottomAnchor, constant: -offset),
+
             titleLabel.heightAnchor.constraint(equalTo: containerForlabel.heightAnchor),
             titleLabel.topAnchor.constraint(equalTo: containerForlabel.topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: containerForlabel.leadingAnchor, constant: offset),
+            titleLabel.leadingAnchor.constraint(equalTo: containerForlabel.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: containerForlabel.trailingAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: containerForlabel.bottomAnchor)])
+            titleLabel.bottomAnchor.constraint(equalTo: containerForlabel.bottomAnchor)
+        ])
     }
 }

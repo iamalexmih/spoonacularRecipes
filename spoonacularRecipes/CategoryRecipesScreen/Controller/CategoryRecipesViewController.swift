@@ -9,11 +9,13 @@ import UIKit
 
 class CategoryRecipesViewController: UIViewController {
     
+    private let cellHeight: CGFloat = 250
+    
     let source: [RecipeCard] = getAllCategories()
     let networkService = NetworkService()
     var sectionName = "Category Recipes"
     
-    let tableView = UITableView()
+    let tableView = UITableView(frame: .zero, style: .plain)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,5 +109,9 @@ extension CategoryRecipesViewController: UITableViewDelegate {
                 print(error)
             }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return cellHeight
     }
 }

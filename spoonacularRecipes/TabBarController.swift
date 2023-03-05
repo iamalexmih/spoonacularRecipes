@@ -46,7 +46,11 @@ final class TabBarController: UITabBarController {
     private func setupTabBar() {
         view.backgroundColor = .systemBackground
         tabBar.tintColor = .label
-        tabBar.unselectedItemTintColor = .systemGray
+//        tabBar.unselectedItemTintColor = .systemGray
+        
+        // добавил цвета кастомные цвета в таббар
+        tabBar.barTintColor = UIColor(named: "orangeColor")
+        tabBar.unselectedItemTintColor = UIColor(named: "blueColor")
         
         let dataSource: [TabBarItem] = [.category, .main, .favourite]
         self.viewControllers = dataSource.map {

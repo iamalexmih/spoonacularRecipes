@@ -14,7 +14,7 @@ class PopularCell: UITableViewCell {
     
     let titleLabel = UILabel()
     let foodImageView = UIImageView()
-    let heartButton = UIButton()
+    let heartButton = UIButton(type: .system)
     let containerForCell = UIView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -22,9 +22,9 @@ class PopularCell: UITableViewCell {
         
         setup()
         setupImage()
-        setupContainer()
         setupTitle()
         setupButton()
+        setupContainer()
         setupConstraints()
     }
     
@@ -47,21 +47,10 @@ extension PopularCell {
     }
     
     func setupContainer() {
-        //containerForCell.backgroundColor = .black.withAlphaComponent(0.3)
         containerForCell.layer.cornerRadius = offset
         containerForCell.translatesAutoresizingMaskIntoConstraints = false
         
-//        let gradient = CAGradientLayer()
-//        gradient.frame = containerForCell.frame
-//        let first = (UIColor.clear).cgColor
-//        let second = (UIColor.black).cgColor
-//
-//        gradient.colors = [first, second]
-//        containerForCell.layer.insertSublayer(gradient, at: 0)
-        
-        //self.view.layer.insertSublayer(gradientLayer, at: 0)
-        
-        addSubview(containerForCell)
+        contentView.addSubview(containerForCell)
     }
     
     func setupImage() {
@@ -71,15 +60,26 @@ extension PopularCell {
         foodImageView.clipsToBounds = true
         foodImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.addSubview(foodImageView)
+        contentView.addSubview(foodImageView)
     }
     
     func setupButton() {
-        heartButton.setBackgroundImage(UIImage(systemName: "heart"), for: .normal)
+        heartButton.setImage(UIImage(systemName: "heart"), for: .normal)
         heartButton.layer.cornerRadius = offset / 2
         heartButton.translatesAutoresizingMaskIntoConstraints = false
+        heartButton.tintColor = .white
+        heartButton.addTarget(self, action: #selector(heartButtonPressed), for: .touchUpInside)
         
         containerForCell.addSubview(heartButton)
+    }
+    
+    @objc func heartButtonPressed(_ sender: UIButton) {
+        animateButton(sender, playing: true)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.animateButton(sender, playing: false)
+            sender.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        }
     }
     
     func setupTitle() {
@@ -93,32 +93,40 @@ extension PopularCell {
     }
 }
 
+extension PopularCell {
+    private func animateButton(_ sender: UIButton, playing: Bool) {
+        if playing {
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           options: [.autoreverse, .repeat],
+                           animations: { sender.alpha = 0.5 },
+                           completion: nil)
+        } else {
+            UIView.animate(withDuration: 0.5,
+                           animations: { sender.alpha = 1 },
+                           completion: nil)
+        }
+    }
+}
+
 //MARK: - Constraints
 extension PopularCell {
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            foodImageView.topAnchor.constraint(equalTo: topAnchor, constant: offset / 2),
-            foodImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: offset),
-            foodImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -offset),
-            foodImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            foodImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: offset / 2),
+            foodImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: offset),
+            foodImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -offset),
+            foodImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             foodImageView.heightAnchor.constraint(equalToConstant: heightCell)
         ])
         
         NSLayoutConstraint.activate([
-            containerForCell.topAnchor.constraint(equalTo: foodImageView.topAnchor),
-            containerForCell.bottomAnchor.constraint(equalTo: foodImageView.bottomAnchor),
-            containerForCell.leadingAnchor.constraint(equalTo: foodImageView.leadingAnchor),
-            containerForCell.trailingAnchor.constraint(equalTo: foodImageView.trailingAnchor)
+            containerForCell.topAnchor.constraint(equalTo: contentView.topAnchor, constant: offset / 2),
+            containerForCell.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            containerForCell.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: offset),
+            containerForCell.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -offset)
         ])
-        
-        let gradient = CAGradientLayer()
-        gradient.frame = containerForCell.frame
-        let first = (UIColor.clear).cgColor
-        let second = (UIColor.black).cgColor
-
-        gradient.colors = [first, second]
-        containerForCell.layer.insertSublayer(gradient, at: 0)
-        
+               
         NSLayoutConstraint.activate([
             heartButton.topAnchor.constraint(equalTo: containerForCell.topAnchor, constant: offset/2),
             heartButton.trailingAnchor.constraint(equalTo: containerForCell.trailingAnchor, constant: -offset/2),
@@ -134,3 +142,4 @@ extension PopularCell {
         ])
     }
 }
+

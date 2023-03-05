@@ -21,7 +21,7 @@ class MainViewController: UIViewController {
         setConstraints()
         
         networkService.delegate = self
-        
+
 //        networkService.fetchRecipesPopularity()
 //        networkService.fetchRecipesPopularity(byType: "bread")
     }

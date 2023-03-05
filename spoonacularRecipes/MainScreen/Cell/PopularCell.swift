@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class PopularCell: UITableViewCell {
     private let offset: CGFloat = 20
@@ -36,7 +37,12 @@ class PopularCell: UITableViewCell {
 extension PopularCell {
     func configureCell(title: String, image: String) {
         titleLabel.text = title
-        foodImageView.image = UIImage(named: image)
+        if !image.contains("https") {
+            foodImageView.image = UIImage(named: "beverage")
+        }
+        else {
+            foodImageView.kf.setImage(with: URL(string: image))
+        }
     }
 }
 

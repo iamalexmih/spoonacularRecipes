@@ -65,8 +65,8 @@ extension MainViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PopularCell.self), for: indexPath) as! PopularCell
         
         let textTitle = list[indexPath.row].getTitle().capitalized
-        //let imageName = list[indexPath.row].imageName
-        let imageName = "beverage"
+        let imageName = list[indexPath.row].getImage()
+        //let imageName = "beverage"
         cell.configureCell(title: textTitle, image: imageName)
         
         return cell

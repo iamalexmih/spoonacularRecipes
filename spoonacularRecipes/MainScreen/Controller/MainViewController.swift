@@ -81,6 +81,11 @@ extension MainViewController: UITableViewDelegate {
 //        if let tabBarController = self.tabBarController, let vc = tabBarController.viewControllers?[1] as? MainViewController {
 //            
 //        }
+                    DispatchQueue.main.async {
+                        let vc = DetailRecipeViewController()
+                        vc.idRecipe = self.list[indexPath.row].getId()
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
     }
 }
 

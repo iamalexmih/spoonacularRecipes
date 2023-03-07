@@ -17,11 +17,11 @@ final class TabBarController: UITabBarController {
         var title: String {
             switch self {
             case .main:
-                return "Популярное"
+                return "Popular Recipes"
             case .favourite:
-                return "Избранное"
+                return "Favourites"
             case .category:
-                return "Категории"
+                return "Category Recipes"
             }
         }
         
@@ -46,7 +46,6 @@ final class TabBarController: UITabBarController {
     private func setupTabBar() {
         view.backgroundColor = .systemBackground
         tabBar.tintColor = .label
-//        tabBar.unselectedItemTintColor = .systemGray
         
         // добавил цвета кастомные цвета в таббар
         tabBar.barTintColor = UIColor(named: "orangeColor")
@@ -62,7 +61,7 @@ final class TabBarController: UITabBarController {
                 let mainViewController = MainViewController()
                 return self.wrappedInNavigationController(with: mainViewController, title: $0.title)
             case .favourite:
-                let favoriteViewController = DetailRecipeViewController()
+                let favoriteViewController = FavoriteViewController()
                 return self.wrappedInNavigationController(with: favoriteViewController, title: $0.title)
             }
         }

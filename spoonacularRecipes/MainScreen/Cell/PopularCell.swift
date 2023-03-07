@@ -18,6 +18,8 @@ class PopularCell: UITableViewCell {
     let heartButton = UIButton(type: .system)
     let containerForCell = UIView()
     
+    private var gradientView = GradientView()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -31,6 +33,12 @@ class PopularCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSublayers(of layer: CALayer) {
+        super.layoutSublayers(of: self.layer)
+        
+        gradientView = GradientView(frame: titleLabel.bounds)
     }
 }
 
@@ -54,8 +62,11 @@ extension PopularCell {
     
     func setupContainer() {
         containerForCell.layer.cornerRadius = offset
+        containerForCell.layer.masksToBounds = true
         containerForCell.translatesAutoresizingMaskIntoConstraints = false
         
+        gradientView.translatesAutoresizingMaskIntoConstraints = false
+        containerForCell.addSubview(gradientView)
         contentView.addSubview(containerForCell)
     }
     
@@ -127,10 +138,10 @@ extension PopularCell {
         ])
         
         NSLayoutConstraint.activate([
-            containerForCell.topAnchor.constraint(equalTo: contentView.topAnchor, constant: offset / 2),
-            containerForCell.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            containerForCell.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: offset),
-            containerForCell.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -offset)
+            containerForCell.topAnchor.constraint(equalTo: foodImageView.topAnchor),
+            containerForCell.bottomAnchor.constraint(equalTo: foodImageView.bottomAnchor),
+            containerForCell.leadingAnchor.constraint(equalTo: foodImageView.leadingAnchor),
+            containerForCell.trailingAnchor.constraint(equalTo: foodImageView.trailingAnchor)
         ])
                
         NSLayoutConstraint.activate([
@@ -145,6 +156,13 @@ extension PopularCell {
             titleLabel.leadingAnchor.constraint(equalTo: containerForCell.leadingAnchor, constant: offset),
             titleLabel.trailingAnchor.constraint(equalTo: containerForCell.trailingAnchor, constant: -offset),
             titleLabel.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        NSLayoutConstraint.activate([
+            gradientView.topAnchor.constraint(equalTo: containerForCell.topAnchor, constant: 160),
+            gradientView.leadingAnchor.constraint(equalTo: containerForCell.leadingAnchor),
+            gradientView.trailingAnchor.constraint(equalTo: containerForCell.trailingAnchor),
+            gradientView.bottomAnchor.constraint(equalTo: containerForCell.bottomAnchor)
         ])
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 final class DetailRecipeViewController: UIViewController {
-    private var idRecipe = 715541
+    var idRecipe = 715541
     private var source: DetailRecipe?
     private let networkService = NetworkService()
     private let offset: CGFloat = 20

@@ -48,6 +48,7 @@ final class TabBarController: UITabBarController {
         tabBar.tintColor = .label
         
         // добавил цвета кастомные цвета в таббар
+        tabBar.isTranslucent = false
         tabBar.barTintColor = UIColor(named: "orangeColor")
         tabBar.unselectedItemTintColor = UIColor(named: "blueColor")
         
@@ -70,6 +71,7 @@ final class TabBarController: UITabBarController {
             $1.tabBarItem.title = dataSource[$0].title
             $1.tabBarItem.image = UIImage(systemName: dataSource[$0].iconMame)
             $1.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: .zero, bottom: -5, right: .zero)
+            $1.tabBarController?.tabBar.backgroundColor = UIColor(named: "orangeColor")
         }
     }
     

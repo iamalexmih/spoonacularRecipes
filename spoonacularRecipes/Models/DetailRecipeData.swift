@@ -8,22 +8,22 @@
 import Foundation
 
 struct DetailRecipe: Decodable {
-    let readyInMinutes: Int
-    let title: String
-    let image: String
-    let extendedIngredients: [Ingredients]
-    let analyzedInstructions: [Instructions]
+    let readyInMinutes: Int?
+    let title: String?
+    let image: String?
+    let extendedIngredients: [Ingredients]?
+    let analyzedInstructions: [Instructions]?
 }
 
 struct Instructions: Decodable {
-    let steps: [Steps]
+    let steps: [Steps]?
 }
 
 struct Ingredients: Decodable {
-    let original: String
+    let original: String?
 }
 
 struct Steps: Decodable {
-    let number: Int
-    let step: String
+    let number: Int?
+    let step: String?
 }

@@ -19,11 +19,6 @@ class MainViewController: UIViewController {
         setup()
         setupTableView()
         setConstraints()
-        
-        networkService.delegate = self
-
-//        networkService.fetchRecipesPopularity()
-//        networkService.fetchRecipesPopularity(byType: "bread")
     }
 }
 
@@ -31,8 +26,6 @@ class MainViewController: UIViewController {
 private extension MainViewController {
     func setup() {
         title = sectionName
-        //view.addGradientBackground(firstColor: .white, secondColor: .black)
-        //view.addBlackGradientLayerInBackground(frame: view.bounds, colors: [.clear, .black])
         view.backgroundColor = .systemBackground
     }
     
@@ -63,10 +56,8 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PopularCell.self), for: indexPath) as! PopularCell
-        
         let textTitle = list[indexPath.row].getTitle().capitalized
         let imageName = list[indexPath.row].getImage()
-        //let imageName = "beverage"
         cell.configureCell(title: textTitle, image: imageName)
         
         return cell
@@ -76,27 +67,8 @@ extension MainViewController: UITableViewDataSource {
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! PopularCell
-//        let favoriteName = cell.titleLabel.text!
-//        
-//        if let tabBarController = self.tabBarController, let vc = tabBarController.viewControllers?[1] as? MainViewController {
-//            
-//        }
-                        let vc = DetailRecipeViewController()
-                        vc.idRecipe = self.list[indexPath.row].getId()
-                        navigationController?.pushViewController(vc, animated: true)
-    }
-}
-
-extension MainViewController: NetworkServiceProtocol {
-    
-    func getRecipesData(_ networkService: NetworkService, recipesData: Any) {
-        if let recipes = recipesData as? ResultsData {
-            print(recipes.results)
-        }
-
-    }
-    
-    func didFailWithError(error: Error) {
-        print(error.localizedDescription)
+        let vc = DetailRecipeViewController()
+        vc.idRecipe = self.list[indexPath.row].getId()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

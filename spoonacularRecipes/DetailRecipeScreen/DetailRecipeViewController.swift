@@ -58,6 +58,7 @@ final class DetailRecipeViewController: UIViewController {
         showSpinnerView()
         
         //TODO: Тестовый запрос для проверки работоспособности (Потом удалить)
+//            Этот тестовый метод писал Паша.
         // test
 //        if let id = idRecipe {
 //            NetworkService.shared.fetchRecipes(byIDs: [id]) { result in
@@ -128,31 +129,31 @@ private extension DetailRecipeViewController {
         }
     }
     
-    func loadData() {
-        guard let idRecipe else { return }
-        NetworkService.shared.fetchRecipe(byID: idRecipe) { result in
-            switch result {
-            case .success(let data):
-                DispatchQueue.main.async {
-                    [weak self] in
-                    guard let self = self else { return }
-                    self.source = data as? DetailRecipe
-                    self.getImage(
-                        urlString: self.source?.image,
-                        completion: { image in
-                        self.imageView.image = image
-                    })
-                    let minutes = String(self.source?.readyInMinutes ?? 0)
-                    self.readyLabel.text = "\(minutes) minutes"
-                    self.titleLabel.text = self.source?.title
-                    self.setupButton()
-                    self.tableView.reloadData()
-                    self.dismissSpinnerView()
-                }
-            case .failure(_): break
-            }
-        }
-    }
+//    func loadData() {
+//        guard let idRecipe else { return }
+//        NetworkService.shared.fetchRecipe(byID: idRecipe) { result in
+//            switch result {
+//            case .success(let data):
+//                DispatchQueue.main.async {
+//                    [weak self] in
+//                    guard let self = self else { return }
+//                    self.source = data as? DetailRecipe
+//                    self.getImage(
+//                        urlString: self.source?.image,
+//                        completion: { image in
+//                        self.imageView.image = image
+//                    })
+//                    let minutes = String(self.source?.readyInMinutes ?? 0)
+//                    self.readyLabel.text = "\(minutes) minutes"
+//                    self.titleLabel.text = self.source?.title
+//                    self.setupButton()
+//                    self.tableView.reloadData()
+//                    self.dismissSpinnerView()
+//                }
+//            case .failure(_): break
+//            }
+//        }
+//    }
 
     func getImage(urlString: String?, completion: @escaping (UIImage?) -> Void) {
         guard

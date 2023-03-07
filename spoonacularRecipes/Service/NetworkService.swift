@@ -22,7 +22,7 @@ class NetworkService {
     
     // по id, конкретный рецепт
     func fetchRecipe(byID id: Int,
-                     completion: @escaping (Result<ResultsData, Error>) -> Void) {
+                     completion: @escaping (Result<Decodable, Error>) -> Void) {
         let urlString = "\(baseURL)/\(id)/information/?apiKey=\(apiKey)"
         performRequest(with: urlString, type: DetailRecipe.self) { (result) in
             switch result {
@@ -35,7 +35,7 @@ class NetworkService {
     }
     
     // популярные рецепты
-    func fetchRecipesPopularity(completion: @escaping (Result<ResultsData, Error>) -> Void) {
+    func fetchRecipesPopularity(completion: @escaping (Result<Decodable, Error>) -> Void) {
         let urlString = "\(baseURL)/complexSearch?apiKey=\(apiKey)&sort=popularity"
         performRequest(with: urlString, type: ResultsData.self) { (result) in
             switch result {
@@ -49,7 +49,7 @@ class NetworkService {
     
     // популярные категории
     func fetchRecipesPopularity(byType type: String,
-                                completion: @escaping (Result<ResultsData, Error>) -> Void) {
+                                completion: @escaping (Result<Decodable, Error>) -> Void) {
         let urlString = "\(baseURL)/complexSearch?apiKey=\(apiKey)&type=\(type)&sort=popularity"
         performRequest(with: urlString, type: ResultsData.self) { (result) in
             switch result {
@@ -63,7 +63,7 @@ class NetworkService {
     
     private func performRequest(with urlString: String,
                                 type: Decodable.Type,
-                                completion: @escaping (Result<ResultsData, RecipeError>) -> Void) {
+                                completion: @escaping (Result<Decodable, RecipeError>) -> Void) {
         let newUrl = urlString.replacingOccurrences(of: " ", with: "%20")
         guard let url = URL(string: newUrl) else {
             completion(.failure(.urlNotCreate))
@@ -82,7 +82,7 @@ class NetworkService {
                 
             }
             do {
-                if let decodedData = try? JSONDecoder().decode(ResultsData.self, from: data) {
+                if let decodedData = try? JSONDecoder().decode(type.self, from: data) {
                     completion(.success(decodedData))
                 } else {
                     completion(.failure(.decodeError))

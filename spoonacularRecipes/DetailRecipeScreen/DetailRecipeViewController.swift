@@ -8,7 +8,7 @@
 import UIKit
 
 final class DetailRecipeViewController: UIViewController {
-    var idRecipe = 715541
+    var idRecipe: Int? = 715541
     private var source: DetailRecipe?
     private let networkService = NetworkService()
     private let offset: CGFloat = 20
@@ -47,6 +47,7 @@ final class DetailRecipeViewController: UIViewController {
     private let instructionsButton = UIButton(type: .system)
     private var isIngredients = true
     
+    private let spinnerView = SpinnerViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +56,7 @@ final class DetailRecipeViewController: UIViewController {
         setConstraints()
         loadData()
         actionButton()
+        showSpinnerView()
     }
 }
 
@@ -83,9 +85,9 @@ private extension DetailRecipeViewController {
     }
     
     func loadData() {
+        guard let idRecipe else { return }
         networkService.fetchRecipe(byID: idRecipe) { result in
             switch result {
-//                RecipeCard.getId()
             case .success(let data):
                 DispatchQueue.main.async {
                     [weak self] in
@@ -101,6 +103,7 @@ private extension DetailRecipeViewController {
                     self.titleLabel.text = self.source?.title
                     self.setupButton()
                     self.tableView.reloadData()
+                    self.dismissSpinnerView()
                 }
             case .failure(_): break
             }
@@ -215,9 +218,9 @@ extension DetailRecipeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var count = 0
         if isIngredients {
-            count = source?.extendedIngredients.count ?? 0
+            count = source?.extendedIngredients?.count ?? 0
         } else {
-            count = source?.analyzedInstructions[0].steps.count ?? 0
+            count = source?.analyzedInstructions?[0].steps?.count ?? 0
         }
         return count
     }
@@ -226,12 +229,25 @@ extension DetailRecipeViewController: UITableViewDataSource {
         let cell = UITableViewCell()
         var text = ""
         if isIngredients {
-            text = source?.extendedIngredients[indexPath.row].original ?? ""
+            text = source?.extendedIngredients?[indexPath.row].original ?? ""
         } else {
-            text = source?.analyzedInstructions[0].steps[indexPath.row].step ?? ""
+            text = source?.analyzedInstructions?[0].steps?[indexPath.row].step ?? ""
         }
         cell.textLabel?.numberOfLines = 0
         cell.textLabel?.text = text
         return cell
+    }
+    
+    private func showSpinnerView() {
+        addChild(spinnerView)
+        spinnerView.view.frame = view.frame
+        view.addSubview(spinnerView.view)
+        spinnerView.didMove(toParent: self)
+    }
+    
+    private func dismissSpinnerView() {
+        spinnerView.willMove(toParent: nil)
+        spinnerView.view.removeFromSuperview()
+        spinnerView.removeFromParent()
     }
 }

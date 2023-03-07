@@ -7,18 +7,18 @@
 
 import Foundation
 
-protocol NetworkServiceProtocol {
-    func getRecipesData(_ networkService: NetworkService, recipesData: Any)
-    func didFailWithError(error: Error)
-}
 
 
 class NetworkService {
+    
+    static let shared = NetworkService()
+    
+    private init() { }
+    
     private let baseURL = "https://api.spoonacular.com/recipes"
     private let apiKey = "ec302cd3ae2e439b9558cc79d26c5efa"
 //    private let apiKey = "1d725eb876444268ae0f53d1bcbe8b44"
     
-    var delegate: NetworkServiceProtocol?
     
     // по id, конкретный рецепт
     func fetchRecipe(byID id: Int,
@@ -36,7 +36,7 @@ class NetworkService {
         }
     }
     
-    /// запрос по массиву ID рецептов
+    // запрос по массиву ID рецептов
     func fetchRecipes(byIDs idArray: [Int], complitionHandler: @escaping (Result<Decodable, Error>) -> Void) {
         
         let urlString = createURLString(from: idArray)

@@ -11,8 +11,6 @@ class MainViewController: UIViewController {
     var list: [RecipeCard] = getAllCategories()
     let tableView = UITableView()
     var sectionName = "Popular Recipes"
-
-    let networkService = NetworkService()
     
     override func viewDidLoad() {
         super.viewDidLoad()

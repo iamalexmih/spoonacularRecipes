@@ -12,7 +12,6 @@ class CategoryRecipesViewController: UIViewController {
     private let cellHeight: CGFloat = 250
     
     let source: [RecipeCard] = getAllCategories()
-    let networkService = NetworkService()
     var sectionName = "Category Recipes"
     
     let tableView = UITableView(frame: .zero, style: .plain)
@@ -94,7 +93,7 @@ extension CategoryRecipesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! CateroryCell
         let categoryType = cell.titleLabel.text!
-        networkService.fetchRecipesPopularity(byType: categoryType.lowercased()) { [weak self] (result) in
+        NetworkService.shared.fetchRecipesPopularity(byType: categoryType.lowercased()) { [weak self] (result) in
             switch result {
             case .success(let data):
                 if let recipes = self?.getRecipesArrayFrom(data: data as! ResultsData) {

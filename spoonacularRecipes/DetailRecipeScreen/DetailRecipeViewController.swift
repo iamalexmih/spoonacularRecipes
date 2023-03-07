@@ -10,7 +10,6 @@ import UIKit
 final class DetailRecipeViewController: UIViewController {
     var idRecipe: Int? = 715541
     private var source: DetailRecipe?
-    private let networkService = NetworkService()
     private let offset: CGFloat = 20
     
     private let tableView = UITableView()
@@ -104,7 +103,7 @@ private extension DetailRecipeViewController {
     
     func loadData() {
         guard let idRecipe else { return }
-        networkService.fetchRecipe(byID: idRecipe) { result in
+        NetworkService.shared.fetchRecipe(byID: idRecipe) { result in
             switch result {
             case .success(let data):
                 DispatchQueue.main.async {
@@ -232,7 +231,7 @@ private extension DetailRecipeViewController {
 // MARK: - UITableViewDataSource
 
 extension DetailRecipeViewController: UITableViewDataSource {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var count = 0
         if isIngredients {
@@ -242,7 +241,7 @@ extension DetailRecipeViewController: UITableViewDataSource {
         }
         return count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         var text = ""
@@ -255,7 +254,11 @@ extension DetailRecipeViewController: UITableViewDataSource {
         cell.textLabel?.text = text
         return cell
     }
-    
+}
+
+// MARK: - Configure Spinner View (Activity Indicator)
+
+extension DetailRecipeViewController {
     private func showSpinnerView() {
         addChild(spinnerView)
         spinnerView.view.frame = view.frame

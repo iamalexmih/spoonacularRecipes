@@ -23,7 +23,9 @@ class NetworkService {
     // по id, конкретный рецепт
     func fetchRecipe(byID id: Int,
                      completion: @escaping (Result<Decodable, Error>) -> Void) {
+        
         let urlString = "\(baseURL)/\(id)/information/?apiKey=\(apiKey)"
+        
         performRequest(with: urlString, type: DetailRecipe.self) { (result) in
             switch result {
             case .success(let data):
@@ -33,6 +35,31 @@ class NetworkService {
             }
         }
     }
+    
+    /// запрос по массиву ID рецептов
+    func fetchRecipes(by idArray: [Int], complitionHandler: @escaping (Result<Decodable, Error>) -> Void) {
+        
+        let urlString = createURLString(from: idArray)
+        performRequest(with: urlString, type: [DetailRecipe].self) { result in
+            switch result {
+            case .failure(let error):
+                complitionHandler(.failure(error))
+            case .success(let data):
+                complitionHandler(.success(data))
+            }
+        }
+    }
+    
+    private func createURLString(from ids: [Int]) -> String {
+        var idList = ""
+        ids.forEach { id in
+            idList += String(id) + ","
+        }
+        let urlString = "\(baseURL)/informationBulk?apiKey=\(apiKey)&ids=\(idList)"
+        
+        return urlString
+    }
+    
     
     // популярные рецепты
     func fetchRecipesPopularity(completion: @escaping (Result<Decodable, Error>) -> Void) {

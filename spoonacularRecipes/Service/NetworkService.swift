@@ -37,7 +37,7 @@ class NetworkService {
     }
     
     /// запрос по массиву ID рецептов
-    func fetchRecipes(by idArray: [Int], complitionHandler: @escaping (Result<Decodable, Error>) -> Void) {
+    func fetchRecipes(byIDs idArray: [Int], complitionHandler: @escaping (Result<Decodable, Error>) -> Void) {
         
         let urlString = createURLString(from: idArray)
         performRequest(with: urlString, type: [DetailRecipe].self) { result in

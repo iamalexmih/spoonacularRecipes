@@ -58,7 +58,7 @@ final class TabBarController: UITabBarController {
                 let mainViewController = MainViewController()
                 return self.wrappedInNavigationController(with: mainViewController, title: $0.title)
             case .favourite:
-                let favoriteViewController = FavoriteViewController()
+                let favoriteViewController = DetailRecipeViewController()
                 return self.wrappedInNavigationController(with: favoriteViewController, title: $0.title)
             }
         }

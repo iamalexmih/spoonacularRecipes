@@ -95,7 +95,7 @@ extension CategoryRecipesViewController: UITableViewDelegate {
         networkService.fetchRecipesPopularity(byType: categoryType.lowercased()) { [weak self] (result) in
             switch result {
             case .success(let data):
-                if let recipes = self?.getRecipesArrayFrom(data: data) {
+                if let recipes = self?.getRecipesArrayFrom(data: data as! ResultsData) {
                     DispatchQueue.main.async {
                         let vc = MainViewController()
                         vc.list = recipes

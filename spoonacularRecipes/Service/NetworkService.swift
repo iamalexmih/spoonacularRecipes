@@ -106,7 +106,6 @@ class NetworkService {
             guard let data = data else {
                 completion(.failure(.dataError))
                 return
-                
             }
             do {
                 if let decodedData = try? JSONDecoder().decode(type.self, from: data) {

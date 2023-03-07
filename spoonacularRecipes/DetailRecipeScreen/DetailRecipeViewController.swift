@@ -53,21 +53,21 @@ final class DetailRecipeViewController: UIViewController {
         setup()
         setupTableView()
         setConstraints()
-        loadData()
+        loadDataFromArray()
         actionButton()
         showSpinnerView()
         
         //TODO: Тестовый запрос для проверки работоспособности (Потом удалить)
         // test
 //        if let id = idRecipe {
-//            networkService.fetchRecipes(byIDs: [id]) { result in
+//            NetworkService.shared.fetchRecipes(byIDs: [id]) { result in
 //                switch result {
 //                case .success(let data):
 //                    if let safeData = data as? [DetailRecipe],
-//                        let oneRecip = safeData.first {
+//                       let oneRecip = safeData.first {
 //                        let title = oneRecip.title
 //                        let min = oneRecip.readyInMinutes ?? 0
-//                            print("title = \(title), min = \(min)")
+//                        print("title = \(title), min = \(min)")
 //                    }
 //                case .failure(_):
 //                    break
@@ -99,6 +99,33 @@ private extension DetailRecipeViewController {
         ingredientsButton.setTitle("Ingredient", for: .normal)
         instructionsButton.setTitle("Instructions", for: .normal)
         
+    }
+    
+    func loadDataFromArray() {
+        guard let idRecipe else { return }
+        NetworkService.shared.fetchRecipes(byIDs: [idRecipe]) { result in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    [weak self] in
+                    guard let self = self else { return }
+                    let arrayWithOneRecipe = data as? [DetailRecipe]
+                    self.source = arrayWithOneRecipe?.first
+                    self.getImage(
+                        urlString: self.source?.image,
+                        completion: { image in
+                        self.imageView.image = image
+                    })
+                    let minutes = String(self.source?.readyInMinutes ?? 0)
+                    self.readyLabel.text = "\(minutes) minutes"
+                    self.titleLabel.text = self.source?.title
+                    self.setupButton()
+                    self.tableView.reloadData()
+                    self.dismissSpinnerView()
+                }
+            case .failure(_): break
+            }
+        }
     }
     
     func loadData() {

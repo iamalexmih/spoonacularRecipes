@@ -8,10 +8,17 @@
 import UIKit
 import Kingfisher
 
+protocol PopularCellDelegate {
+    func didPressFavoriteButton(_ cell: PopularCell, button: UIButton)
+}
+
 class PopularCell: UITableViewCell {
+    
     private let offset: CGFloat = 20
     private let heightCell: CGFloat = 200
     private let radius: CGFloat = 20
+    
+    var delegate: PopularCellDelegate?
     
     let titleLabel = UILabel()
     let foodImageView = UIImageView()
@@ -55,6 +62,7 @@ extension PopularCell {
 }
 
 //MARK: - Private Methods
+
 extension PopularCell {
     func setup() {
         selectionStyle = .none
@@ -97,6 +105,8 @@ extension PopularCell {
             self.animateButton(sender, playing: false)
             sender.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         }
+        
+        delegate?.didPressFavoriteButton(self, button: sender)
     }
     
     func setupTitle() {
@@ -127,6 +137,7 @@ extension PopularCell {
 }
 
 //MARK: - Constraints
+
 extension PopularCell {
     func setupConstraints() {
         NSLayoutConstraint.activate([

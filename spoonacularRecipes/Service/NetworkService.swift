@@ -15,8 +15,9 @@ protocol NetworkServiceProtocol {
 
 class NetworkService {
     private let baseURL = "https://api.spoonacular.com/recipes"
-    private let apiKey = "ec302cd3ae2e439b9558cc79d26c5efa"
+//    private let apiKey = "ec302cd3ae2e439b9558cc79d26c5efa"
 //    private let apiKey = "1d725eb876444268ae0f53d1bcbe8b44"
+    private let apiKey = "e2e56101f2714c91895e7132e44e60e0"
     
     var delegate: NetworkServiceProtocol?
     

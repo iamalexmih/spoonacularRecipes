@@ -26,6 +26,8 @@
 		B5FC5BAE29ACB5B40083631C /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FC5BAD29ACB5B40083631C /* TabBarController.swift */; };
 		F63C656729B74C3500A6DB73 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C656629B74C3500A6DB73 /* GradientView.swift */; };
 		F6C559B729B78D060049633A /* SpinnerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C559B629B78D060049633A /* SpinnerViewController.swift */; };
+		F6C559BB29B7CD8F0049633A /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C559BA29B7CD8F0049633A /* Array+Extensions.swift */; };
+		F6DDB3D729B9215700590588 /* DetailRecipeToDo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DDB3D629B9215700590588 /* DetailRecipeToDo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +51,8 @@
 		B5FC5BAD29ACB5B40083631C /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		F63C656629B74C3500A6DB73 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		F6C559B629B78D060049633A /* SpinnerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerViewController.swift; sourceTree = "<group>"; };
+		F6C559BA29B7CD8F0049633A /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
+		F6DDB3D629B9215700590588 /* DetailRecipeToDo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecipeToDo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +86,7 @@
 		1173B46229B2059E00300306 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F6DDB3D629B9215700590588 /* DetailRecipeToDo.swift */,
 				00757E8329AF9C6F0044EA2A /* DetailRecipeData.swift */,
 				1173B46329B2060A00300306 /* RecipeData.swift */,
 				11220BAA29B22ED400BF9851 /* RecipeError.swift */,
@@ -101,7 +106,6 @@
 			isa = PBXGroup;
 			children = (
 				63C10ECB29B0ED8100507CF8 /* PopularCell.swift */,
-				F63C656629B74C3500A6DB73 /* GradientView.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -143,6 +147,7 @@
 				B5FC5BA529ACA3660083631C /* CategoryRecipesScreen */,
 				B5B96ACA29ACD20B009B31BB /* Service */,
 				B5FC5BA129ACA1A30083631C /* Resource */,
+				F6C559BC29B7CD950049633A /* Helpers */,
 			);
 			path = spoonacularRecipes;
 			sourceTree = "<group>";
@@ -187,7 +192,6 @@
 			isa = PBXGroup;
 			children = (
 				B5FC5BA629ACA3EC0083631C /* DetailRecipeViewController.swift */,
-				F6C559B629B78D060049633A /* SpinnerViewController.swift */,
 			);
 			path = DetailRecipeScreen;
 			sourceTree = "<group>";
@@ -199,6 +203,16 @@
 				10A8E4D929AD5817009D2134 /* Controller */,
 			);
 			path = CategoryRecipesScreen;
+			sourceTree = "<group>";
+		};
+		F6C559BC29B7CD950049633A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				F63C656629B74C3500A6DB73 /* GradientView.swift */,
+				F6C559B629B78D060049633A /* SpinnerViewController.swift */,
+				F6C559BA29B7CD8F0049633A /* Array+Extensions.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,6 +292,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6DDB3D729B9215700590588 /* DetailRecipeToDo.swift in Sources */,
 				B5FC5BAB29ACA4230083631C /* CategoryRecipesViewController.swift in Sources */,
 				B5FC5B9129ACA0E40083631C /* MainViewController.swift in Sources */,
 				B5FC5B8D29ACA0E40083631C /* AppDelegate.swift in Sources */,
@@ -289,6 +304,7 @@
 				10A8E4DF29AD6054009D2134 /* CateroryCell.swift in Sources */,
 				B5FC5BA729ACA3EC0083631C /* DetailRecipeViewController.swift in Sources */,
 				B5B96ACE29ACD240009B31BB /* NetworkService.swift in Sources */,
+				F6C559BB29B7CD8F0049633A /* Array+Extensions.swift in Sources */,
 				00757E8429AF9C6F0044EA2A /* DetailRecipeData.swift in Sources */,
 				B5FC5BAE29ACB5B40083631C /* TabBarController.swift in Sources */,
 				B5FC5B8F29ACA0E40083631C /* SceneDelegate.swift in Sources */,

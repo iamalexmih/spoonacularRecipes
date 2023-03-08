@@ -9,7 +9,7 @@ import UIKit
 
 final class DetailRecipeViewController: UIViewController {
     var idRecipe: Int? = 715541
-    private var source: DetailRecipe?
+    private var source: DetailRecipeTodo?
     private let networkService = NetworkService()
     private let offset: CGFloat = 20
     
@@ -45,16 +45,19 @@ final class DetailRecipeViewController: UIViewController {
     
     private let ingredientsButton = UIButton(type: .system)
     private let instructionsButton = UIButton(type: .system)
+    private let heartButton = UIButton(type: .system)
+    
     private var isIngredients = true
     
     private let spinnerView = SpinnerViewController()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        setupTableView()
         setConstraints()
         loadData()
+        setupTableView()
         actionButton()
         showSpinnerView()
     }
@@ -63,15 +66,9 @@ final class DetailRecipeViewController: UIViewController {
 private extension DetailRecipeViewController {
     func setup() {
         paddingView.backgroundColor = .white
-        paddingView.clipsToBounds = true
+        paddingView.clipsToBounds = false
         paddingView.layer.cornerRadius = 25
         paddingView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-    }
-    
-    func setupTableView() {
-        tableView.estimatedRowHeight = 200
-        tableView.separatorStyle = .none
-        tableView.dataSource = self
     }
     
     func setupButton() {
@@ -82,6 +79,36 @@ private extension DetailRecipeViewController {
         ingredientsButton.setTitle("Ingredient", for: .normal)
         instructionsButton.setTitle("Instructions", for: .normal)
         
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: 25, weight: .light, scale: .default)
+        let largeHeart = UIImage(systemName: "heart", withConfiguration: largeConfig)
+        heartButton.setImage(largeHeart, for: .normal)
+        heartButton.layer.cornerRadius = heartButton.frame.width / 2
+        heartButton.layer.backgroundColor = UIColor(named: "orangeColor")?.cgColor
+        heartButton.tintColor = #colorLiteral(red: 0.4521282315, green: 0, blue: 0, alpha: 1)
+        heartButton.contentHorizontalAlignment = .center
+        heartButton.contentEdgeInsets = UIEdgeInsets(top: 2, left: 0, bottom: 0, right: 0)
+    }
+    
+    func applyStyleButton(
+        _ button: [UIButton],
+        tintColor: UIColor = .white,
+        backgroundColor: UIColor = UIColor(named: "ColorButton") ?? .clear,
+        radius: CGFloat = 0
+    ) {
+        button.forEach { item in
+            item.tintColor = tintColor
+            item.backgroundColor = backgroundColor
+            item.layer.cornerRadius = radius
+        }
+    }
+    
+    func setupTableView() {
+        tableView.register(
+            UITableViewCell.self,
+            forCellReuseIdentifier: "cell"
+        )
+        tableView.dataSource = self
+        tableView.delegate = self
     }
     
     func loadData() {
@@ -92,35 +119,37 @@ private extension DetailRecipeViewController {
                 DispatchQueue.main.async {
                     [weak self] in
                     guard let self = self else { return }
-                    self.source = data as? DetailRecipe
+                    let recipes = data as? DetailRecipe
+                    guard let recipes else { return }
+                    self.source = .init(from: recipes)
                     self.getImage(
                         urlString: self.source?.image,
                         completion: { image in
-                        self.imageView.image = image
-                    })
+                            self.imageView.image = image
+                            self.dismissSpinnerView()
+                        })
                     let minutes = String(self.source?.readyInMinutes ?? 0)
                     self.readyLabel.text = "\(minutes) minutes"
                     self.titleLabel.text = self.source?.title
                     self.setupButton()
                     self.tableView.reloadData()
-                    self.dismissSpinnerView()
                 }
             case .failure(_): break
             }
         }
     }
-
+    
     func getImage(urlString: String?, completion: @escaping (UIImage?) -> Void) {
         guard
             let urlString,
             let url = URL(string: urlString)
         else { return }
-
+        
         URLSession.shared.dataTask(with: url) { data, _, _ in
             guard let data else { return }
             DispatchQueue.main.async {
                 let image = UIImage(data: data)
-                    return completion(image)
+                return completion(image)
             }
         } .resume()
     }
@@ -128,6 +157,7 @@ private extension DetailRecipeViewController {
     func actionButton() {
         ingredientsButton.addTarget(self, action: #selector(ingredientsButtonTapped), for: .touchUpInside)
         instructionsButton.addTarget(self, action: #selector(instructionsButtonTapped), for: .touchUpInside)
+        heartButton.addTarget(self, action: #selector(heartButtonPressed), for: .touchUpInside)
     }
     
     @objc
@@ -142,19 +172,44 @@ private extension DetailRecipeViewController {
         tableView.reloadData()
     }
     
-    func applyStyleButton(
-        _ button: [UIButton],
-        tintColor: UIColor = .white,
-        backgroundColor: UIColor = #colorLiteral(red: 0.4470903873, green: 0.2713476717, blue: 0.009249448776, alpha: 1),
-        radius: CGFloat = 0
-    ) {
-        button.forEach { item in
-            item.tintColor = tintColor
-            item.backgroundColor = backgroundColor
-            item.layer.cornerRadius = radius
+    @objc func heartButtonPressed(_ sender: UIButton) {
+        animateButton(sender, playing: true)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.animateButton(sender, playing: false)
+            sender.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         }
     }
     
+    func animateButton(_ sender: UIButton, playing: Bool) {
+        if playing {
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           options: [.autoreverse, .repeat],
+                           animations: { sender.alpha = 0.5 },
+                           completion: nil)
+        } else {
+            UIView.animate(withDuration: 0.5,
+                           animations: { sender.alpha = 1 },
+                           completion: nil)
+        }
+    }
+    
+    //MARK: - UIActivityIndicatorView
+    func showSpinnerView() {
+        addChild(spinnerView)
+        spinnerView.view.frame = view.frame
+        view.addSubview(spinnerView.view)
+        spinnerView.didMove(toParent: self)
+    }
+    
+    func dismissSpinnerView() {
+        spinnerView.willMove(toParent: nil)
+        spinnerView.view.removeFromSuperview()
+        spinnerView.removeFromParent()
+    }
+    
+    //MARK: - Constraints
     func setConstraints() {
         [imageView,
          paddingView,
@@ -162,17 +217,18 @@ private extension DetailRecipeViewController {
          readyLabel,
          titleLabel,
          stackViewForButton,
-         ingredientsButton
+         ingredientsButton,
+         heartButton
         ]
             .forEach { item in
-            item.translatesAutoresizingMaskIntoConstraints = false
-        }
+                item.translatesAutoresizingMaskIntoConstraints = false
+            }
         
         [imageView, paddingView, readyLabel].forEach { item in
             view.addSubview(item)
         }
         
-        [titleLabel, stackViewForButton, tableView].forEach { item in
+        [heartButton, titleLabel, stackViewForButton, tableView].forEach { item in
             paddingView.addSubview(item)
         }
         
@@ -185,7 +241,7 @@ private extension DetailRecipeViewController {
             imageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             imageView.topAnchor.constraint(equalTo: view.topAnchor),
             imageView.heightAnchor.constraint(equalToConstant: 250),
-
+            
             readyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             readyLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -45),
             
@@ -193,6 +249,11 @@ private extension DetailRecipeViewController {
             paddingView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             paddingView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             paddingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            heartButton.centerYAnchor.constraint(equalTo: paddingView.topAnchor),
+            heartButton.trailingAnchor.constraint(equalTo: paddingView.trailingAnchor, constant: -offset * 2),
+            heartButton.heightAnchor.constraint(equalToConstant: 40),
+            heartButton.widthAnchor.constraint(equalToConstant: 40),
             
             titleLabel.leadingAnchor.constraint(equalTo: paddingView.leadingAnchor, constant: offset),
             titleLabel.trailingAnchor.constraint(equalTo: paddingView.trailingAnchor, constant: -offset),
@@ -204,7 +265,7 @@ private extension DetailRecipeViewController {
             stackViewForButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 25),
             
             tableView.topAnchor.constraint(equalTo: stackViewForButton.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: paddingView.leadingAnchor, constant: offset),
+            tableView.leadingAnchor.constraint(equalTo: paddingView.leadingAnchor),
             paddingView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: offset),
             tableView.bottomAnchor.constraint(equalTo: paddingView.bottomAnchor)
         ])
@@ -214,40 +275,65 @@ private extension DetailRecipeViewController {
 // MARK: - UITableViewDataSource
 
 extension DetailRecipeViewController: UITableViewDataSource {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var count = 0
         if isIngredients {
-            count = source?.extendedIngredients?.count ?? 0
+            count = source?.ingredients?.count ?? 0
         } else {
-            count = source?.analyzedInstructions?[0].steps?.count ?? 0
+            count = source?.analyzedInstructions?[safe: 0]?.steps?.count ?? 0
         }
         return count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        
         var text = ""
         if isIngredients {
-            text = source?.extendedIngredients?[indexPath.row].original ?? ""
+            text = source?.ingredients?[safe: indexPath.row]?.original ?? ""
+            
+            let isMarked = source?.ingredients?[safe: indexPath.row]?.isMarked
+            cell.imageView?.image = isMarked ?? false
+            ? UIImage(systemName: "checkmark.circle.fill")
+            : UIImage(systemName: "circle")
+            cell.imageView?.tintColor = UIColor(named: "orangeColor")
+            
+            
         } else {
-            text = source?.analyzedInstructions?[0].steps?[indexPath.row].step ?? ""
+            cell.imageView?.image = nil
+            text = source?.analyzedInstructions?[safe: 0]?.steps?[safe: indexPath.row]?.step ?? ""
         }
+        
         cell.textLabel?.numberOfLines = 0
         cell.textLabel?.text = text
+        
         return cell
     }
-    
-    private func showSpinnerView() {
-        addChild(spinnerView)
-        spinnerView.view.frame = view.frame
-        view.addSubview(spinnerView.view)
-        spinnerView.didMove(toParent: self)
-    }
-    
-    private func dismissSpinnerView() {
-        spinnerView.willMove(toParent: nil)
-        spinnerView.view.removeFromSuperview()
-        spinnerView.removeFromParent()
+}
+
+extension DetailRecipeViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        guard let cell = tableView.cellForRow(at: indexPath) else {return}
+        
+        if isIngredients {
+            var isMarked = source?.ingredients?[safe: indexPath.row]?.isMarked
+            
+            guard let todos = source?.ingredients else { return }
+            
+            var todo = todos[safe: indexPath.row]!
+            
+            todo.isMarked = !(todo.isMarked ?? false)
+            source?.ingredients?.remove(at: indexPath.row)
+            source?.ingredients?.insert(todo, at: indexPath.row)
+            
+            cell.imageView?.image = isMarked ?? false
+            ? UIImage(systemName: "circle")
+            : UIImage(systemName: "checkmark.circle.fill")
+            
+            cell.imageView?.tintColor = UIColor(named: "orangeColor")
+        }
     }
 }

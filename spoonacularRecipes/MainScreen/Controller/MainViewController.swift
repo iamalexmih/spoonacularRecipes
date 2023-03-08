@@ -20,33 +20,26 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        configureAppearanceScreen()
         setupTableView()
-        setConstraints()
+        setLayout()
         getPopularRecipes()
     }
 }
 
-// MARK: - Private Methods / Setup
+// MARK: - Delegate for Favorite Button
+
+extension MainViewController: PopularCellDelegate {
+    func didPressFavoriteButton(_ cell: PopularCell, button: UIButton) {
+        print("select recipt: \(cell.titleLabel.text!)")
+    }
+}
+
+
+// MARK: - Network
 
 private extension MainViewController {
-    func setup() {
-        title = sectionName
-        view.backgroundColor = .systemBackground
-    }
-    
-    func setupTableView() {
-        view.addSubview(tableView)
-        tableView.separatorStyle = .none
-        tableView.estimatedRowHeight = 200
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(PopularCell.self, forCellReuseIdentifier: String(describing: PopularCell.self))
-        tableView.dataSource = self
-        tableView.delegate = self
-    }
-    
     func getPopularRecipes() {
-        
         // проверка, если есть данные выйдет из метода
         if !listOfRecipes.isEmpty {
             return
@@ -63,22 +56,23 @@ private extension MainViewController {
             }
         }
     }
-    
-    func setConstraints() {
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
+}
+
+
+// MARK: - UITableViewDelegate
+
+extension MainViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if !listOfRecipes.isEmpty {
+            let vc = DetailRecipeViewController()
+            vc.idRecipe = listOfRecipes[indexPath.row].id
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            print("не удалось получить ИД и осуществить переход на DetailRecipeViewController")
+        }
     }
 }
 
-extension MainViewController: PopularCellDelegate {
-    func didPressFavoriteButton(_ cell: PopularCell, button: UIButton) {
-        print("select recipt: \(cell.titleLabel.text!)")
-    }
-}
 
 // MARK: - UITableViewDataSource
 
@@ -104,17 +98,33 @@ extension MainViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - UITableViewDelegate
 
-extension MainViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+// MARK: - Setup TableView, Layout, configure Appearance Screen
 
-        if !listOfRecipes.isEmpty {
-            let vc = DetailRecipeViewController()
-            vc.idRecipe = listOfRecipes[indexPath.row].id
-            navigationController?.pushViewController(vc, animated: true)
-        } else {
-            print("не удалось получить ИД и осуществить переход на DetailRecipeViewController")
-        }
+private extension MainViewController {
+    
+    func configureAppearanceScreen() {
+        title = sectionName
+        view.backgroundColor = .systemBackground
+    }
+    
+    func setupTableView() {
+        tableView.separatorStyle = .none
+        tableView.estimatedRowHeight = 200
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(PopularCell.self, forCellReuseIdentifier: String(describing: PopularCell.self))
+        tableView.dataSource = self
+        tableView.delegate = self
+    }
+    
+    func setLayout() {
+        view.addSubview(tableView)
+        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
 }

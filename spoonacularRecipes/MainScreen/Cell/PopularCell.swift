@@ -50,7 +50,7 @@ extension PopularCell {
         }
         else {
             let processor = RoundCornerImageProcessor(cornerRadius: 20)
-            foodImageView.kf.setImage(with: URL(string: image), placeholder: UIImage(systemName: "xmark"),
+            foodImageView.kf.setImage(with: URL(string: image), placeholder: UIImage(named: "imagePlaceholder"),
             options: [
                 .processor(processor),
                 .transition(.fade(1))

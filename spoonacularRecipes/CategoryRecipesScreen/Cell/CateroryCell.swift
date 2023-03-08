@@ -19,7 +19,7 @@ class CateroryCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        setup()
+        selectionStyleCell()
         setupFoodImageView()
         setupTitle()
         setConstraints()
@@ -44,10 +44,9 @@ extension CateroryCell {
 // MARK: - Private methods
 
 private extension CateroryCell {
-    func setup() {
+    func selectionStyleCell() {
         // отключить выдиление ячейки (стиль выдиления)
         selectionStyle = .none
-
     }
     
     func setupTitle() {

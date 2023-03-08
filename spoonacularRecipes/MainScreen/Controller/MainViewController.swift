@@ -76,6 +76,12 @@ private extension MainViewController {
     }
 }
 
+extension MainViewController: PopularCellDelegate {
+    func didPressFavoriteButton(_ cell: PopularCell, button: UIButton) {
+        print("select recipt: \(cell.titleLabel.text!)")
+    }
+}
+
 // MARK: - UITableViewDataSource
 
 extension MainViewController: UITableViewDataSource {
@@ -85,6 +91,8 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PopularCell.self), for: indexPath) as! PopularCell
+        
+        cell.delegate = self
         
         if !listOfRecipes.isEmpty {
             let text = listOfRecipes[indexPath.row].title

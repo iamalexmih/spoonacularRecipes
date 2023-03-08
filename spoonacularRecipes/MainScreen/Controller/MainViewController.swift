@@ -11,9 +11,7 @@ class MainViewController: UIViewController {
     
     var listOfRecipes: [RecipeCard] = [] {
         didSet {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+            tableView.reloadData()
         }
     }
     
@@ -58,7 +56,9 @@ private extension MainViewController {
             switch result {
             case .success(let data):
                 if let result = data as? ResultData {
-                    self.listOfRecipes = result.results
+                    DispatchQueue.main.async {
+                        self.listOfRecipes = result.results
+                    }
                 }
             case .failure(_):
                 print("Error, .....")

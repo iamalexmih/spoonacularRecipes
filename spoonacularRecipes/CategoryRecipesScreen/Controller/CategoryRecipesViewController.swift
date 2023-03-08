@@ -98,6 +98,7 @@ extension CategoryRecipesViewController: UITableViewDelegate {
             switch result {
             case .success(let data):
                 if let result = data as? ResultData {
+                    
                     DispatchQueue.main.async {
                         let mainViewController = MainViewController()
                         mainViewController.listOfRecipes = result.results

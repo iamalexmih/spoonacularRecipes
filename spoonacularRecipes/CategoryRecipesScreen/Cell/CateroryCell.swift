@@ -74,7 +74,7 @@ private extension CateroryCell {
         foodImageView.clipsToBounds = true
         contentView.addSubview(foodImageView)
     }
-//
+
     func setConstraints() {
         NSLayoutConstraint.activate([
             foodImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: offset / 2),

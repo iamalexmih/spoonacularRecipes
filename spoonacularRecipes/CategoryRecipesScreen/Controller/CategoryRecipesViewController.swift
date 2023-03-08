@@ -35,7 +35,7 @@ private extension CategoryRecipesViewController {
     func setupTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
-        tableView.estimatedRowHeight = 200
+        tableView.estimatedRowHeight = 250
         
         // отключить разделитеть между ячейками
         tableView.separatorStyle = .none
@@ -56,14 +56,14 @@ private extension CategoryRecipesViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)])
     }
     
-    func getRecipesArrayFrom(data: ResultsData) -> [RecipeCard] {
-        var recipes: [RecipeCard] = []
-        for item in data.results {
-            recipes.append(RecipeCard(id: item.getId(), title: item.getTitle(), imageName: item.getImage()))
-        }
-        
-        return recipes
-    }
+//    func getRecipesArrayFrom(data: ResultsData) -> [RecipeCard] {
+//        var recipes: [RecipeCard] = []
+//        for card in data.results {
+//            recipes.append(RecipeCard(id: item.getId(), title: item.getTitle(), imageName: item.getImage()))
+//        }
+//
+//        return recipes
+//    }
 }
 
 // MARK: - UITableViewDataSource
@@ -77,8 +77,8 @@ extension CategoryRecipesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: CateroryCell.self), for: indexPath) as! CateroryCell
         
-        let textTitle = source[indexPath.row].getTitle().capitalized
-        let imageName = source[indexPath.row].getImage()
+        let textTitle = source[indexPath.row].title.capitalized
+        let imageName = source[indexPath.row].image
         
         cell.configure(title: textTitle, and: imageName)
         
@@ -93,19 +93,19 @@ extension CategoryRecipesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! CateroryCell
         let categoryType = cell.titleLabel.text!
-        NetworkService.shared.fetchRecipesPopularity(byType: categoryType.lowercased()) { [weak self] (result) in
+        
+        NetworkService.shared.fetchRecipesPopularity(byType: categoryType.lowercased()) { result in
             switch result {
             case .success(let data):
-                if let recipes = self?.getRecipesArrayFrom(data: data as! ResultsData) {
+                if let result = data as? ResultData {
                     DispatchQueue.main.async {
-                        let vc = MainViewController()
-                        vc.list = recipes
-                        vc.sectionName = categoryType
-                        self?.navigationController?.pushViewController(vc, animated: true)
+                        let mainViewController = MainViewController()
+                        mainViewController.listOfRecipes = result.results
+                        self.navigationController?.pushViewController(mainViewController, animated: true)
                     }
                 }
-            case .failure(let error):
-                print(error)
+            case .failure(_):
+                print("Переход к MainViewController не удался")
             }
         }
     }

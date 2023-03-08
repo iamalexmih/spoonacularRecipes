@@ -62,10 +62,10 @@ class NetworkService {
     }
     
     
-    // популярные рецепты
+    /// массив популярных рецептов
     func fetchRecipesPopularity(completion: @escaping (Result<Decodable, Error>) -> Void) {
         let urlString = "\(baseURL)/complexSearch?apiKey=\(apiKey)&sort=popularity"
-        performRequest(with: urlString, type: ResultsData.self) { (result) in
+        performRequest(with: urlString, type: ResultData.self) { (result) in
             switch result {
             case .success(let data):
                 completion(.success(data))
@@ -75,11 +75,11 @@ class NetworkService {
         }
     }
     
-    // популярные категории
+    /// массив популярных рецептов по категории
     func fetchRecipesPopularity(byType type: String,
                                 completion: @escaping (Result<Decodable, Error>) -> Void) {
         let urlString = "\(baseURL)/complexSearch?apiKey=\(apiKey)&type=\(type)&sort=popularity"
-        performRequest(with: urlString, type: ResultsData.self) { (result) in
+        performRequest(with: urlString, type: ResultData.self) { (result) in
             switch result {
             case .success(let data):
                 completion(.success(data))

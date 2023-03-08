@@ -55,6 +55,7 @@ extension PopularCell {
 }
 
 //MARK: - Private Methods
+
 extension PopularCell {
     func setup() {
         selectionStyle = .none
@@ -127,6 +128,7 @@ extension PopularCell {
 }
 
 //MARK: - Constraints
+
 extension PopularCell {
     func setupConstraints() {
         NSLayoutConstraint.activate([

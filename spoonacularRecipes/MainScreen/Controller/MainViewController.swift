@@ -8,7 +8,15 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    var list: [RecipeCard] = getAllCategories()
+    
+    var listOfRecipes: [RecipeCard] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     let tableView = UITableView()
     var sectionName = "Popular Recipes"
     
@@ -17,10 +25,12 @@ class MainViewController: UIViewController {
         setup()
         setupTableView()
         setConstraints()
+        getPopularRecipes()
     }
 }
 
-//MARK: - Private Methods / Setup
+// MARK: - Private Methods / Setup
+
 private extension MainViewController {
     func setup() {
         title = sectionName
@@ -37,6 +47,25 @@ private extension MainViewController {
         tableView.delegate = self
     }
     
+    func getPopularRecipes() {
+        
+        // проверка, если есть данные выйдет из метода
+        if !listOfRecipes.isEmpty {
+            return
+        }
+        
+        NetworkService.shared.fetchRecipesPopularity { result in
+            switch result {
+            case .success(let data):
+                if let result = data as? ResultData {
+                    self.listOfRecipes = result.results
+                }
+            case .failure(_):
+                print("Error, .....")
+            }
+        }
+    }
+    
     func setConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -47,26 +76,39 @@ private extension MainViewController {
     }
 }
 
+// MARK: - UITableViewDataSource
+
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return list.count
+        return listOfRecipes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PopularCell.self), for: indexPath) as! PopularCell
-        let textTitle = list[indexPath.row].getTitle().capitalized
-        let imageName = list[indexPath.row].getImage()
-        cell.configureCell(title: textTitle, image: imageName)
+        
+        if !listOfRecipes.isEmpty {
+            let text = listOfRecipes[indexPath.row].title
+            let imageName = listOfRecipes[indexPath.row].image
+            cell.configureCell(title: text, image: imageName)
+        } else {
+            print("не удалось сконфигурировать ячейку")
+        }
         
         return cell
     }
 }
 
+// MARK: - UITableViewDelegate
+
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! PopularCell
-        let vc = DetailRecipeViewController()
-        vc.idRecipe = self.list[indexPath.row].getId()
-        navigationController?.pushViewController(vc, animated: true)
+
+        if !listOfRecipes.isEmpty {
+            let vc = DetailRecipeViewController()
+            vc.idRecipe = listOfRecipes[indexPath.row].id
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            print("не удалось получить ИД и осуществить переход на DetailRecipeViewController")
+        }
     }
 }

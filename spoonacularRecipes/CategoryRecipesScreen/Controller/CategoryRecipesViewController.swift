@@ -97,13 +97,10 @@ extension CategoryRecipesViewController: UITableViewDelegate {
         NetworkService.shared.fetchRecipesPopularity(byType: categoryType.lowercased()) { result in
             switch result {
             case .success(let data):
-                if let result = data as? ResultData {
-                    
-                    DispatchQueue.main.async {
-                        let mainViewController = MainViewController()
-                        mainViewController.listOfRecipes = result.results
-                        self.navigationController?.pushViewController(mainViewController, animated: true)
-                    }
+                DispatchQueue.main.async {
+                    let mainViewController = MainViewController()
+                    mainViewController.listOfRecipes = data.results
+                    self.navigationController?.pushViewController(mainViewController, animated: true)
                 }
             case .failure(_):
                 print("Переход к MainViewController не удался")

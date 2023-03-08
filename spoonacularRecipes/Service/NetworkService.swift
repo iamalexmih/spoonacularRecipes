@@ -12,7 +12,6 @@ import Foundation
 class NetworkService {
     
     static let shared = NetworkService()
-    
     private init() { }
     
     private let baseURL = "https://api.spoonacular.com/recipes"
@@ -21,24 +20,25 @@ class NetworkService {
 //    private let apiKey = "1d725eb876444268ae0f53d1bcbe8b44"
     
     
+    //TODO: Удалить если не нужен. Уже не используется. За место него fetchRecipes()
     // по id, конкретный рецепт
-    func fetchRecipe(byID id: Int,
-                     completion: @escaping (Result<Decodable, Error>) -> Void) {
-        
-        let urlString = "\(baseURL)/\(id)/information/?apiKey=\(apiKey)"
-        
-        performRequest(with: urlString, type: DetailRecipe.self) { (result) in
-            switch result {
-            case .success(let data):
-                completion(.success(data))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
-    }
+//    func fetchRecipe(byID id: Int,
+//                     completion: @escaping (Result<Decodable, Error>) -> Void) {
+//        
+//        let urlString = "\(baseURL)/\(id)/information/?apiKey=\(apiKey)"
+//
+//        performRequest(with: urlString, type: DetailRecipe.self) { (result) in
+//            switch result {
+//            case .success(let data):
+//                completion(.success(data))
+//            case .failure(let error):
+//                completion(.failure(error))
+//            }
+//        }
+//    }
     
     // запрос по массиву ID рецептов
-    func fetchRecipes(byIDs idArray: [Int], complitionHandler: @escaping (Result<Decodable, Error>) -> Void) {
+    func fetchRecipes(byIDs idArray: [Int], complitionHandler: @escaping (Result<[DetailRecipe], Error>) -> Void) {
         
         let urlString = createURLString(from: idArray)
         performRequest(with: urlString, type: [DetailRecipe].self) { result in
@@ -63,7 +63,7 @@ class NetworkService {
     
     
     /// массив популярных рецептов
-    func fetchRecipesPopularity(completion: @escaping (Result<Decodable, Error>) -> Void) {
+    func fetchRecipesPopularity(completion: @escaping (Result<ResultData, Error>) -> Void) {
         let urlString = "\(baseURL)/complexSearch?apiKey=\(apiKey)&sort=popularity"
         performRequest(with: urlString, type: ResultData.self) { (result) in
             switch result {
@@ -77,7 +77,7 @@ class NetworkService {
     
     /// массив популярных рецептов по категории
     func fetchRecipesPopularity(byType type: String,
-                                completion: @escaping (Result<Decodable, Error>) -> Void) {
+                                completion: @escaping (Result<ResultData, Error>) -> Void) {
         let urlString = "\(baseURL)/complexSearch?apiKey=\(apiKey)&type=\(type)&sort=popularity"
         performRequest(with: urlString, type: ResultData.self) { (result) in
             switch result {
@@ -89,9 +89,9 @@ class NetworkService {
         }
     }
     
-    private func performRequest(with urlString: String,
-                                type: Decodable.Type,
-                                completion: @escaping (Result<Decodable, RecipeError>) -> Void) {
+    private func performRequest<T: Decodable>(with urlString: String,
+                                              type: T.Type,
+                                completion: @escaping (Result<T, RecipeError>) -> Void) {
         let newUrl = urlString.replacingOccurrences(of: " ", with: "%20")
         guard let url = URL(string: newUrl) else {
             completion(.failure(.urlNotCreate))

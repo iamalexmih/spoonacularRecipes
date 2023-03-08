@@ -106,12 +106,11 @@ private extension DetailRecipeViewController {
         guard let idRecipe else { return }
         NetworkService.shared.fetchRecipes(byIDs: [idRecipe]) { result in
             switch result {
-            case .success(let data):
+            case .success(let arrayWithOneRecipe):
                 DispatchQueue.main.async {
                     [weak self] in
                     guard let self = self else { return }
-                    let arrayWithOneRecipe = data as? [DetailRecipe]
-                    self.source = arrayWithOneRecipe?.first
+                    self.source = arrayWithOneRecipe.first
                     self.getImage(
                         urlString: self.source?.image,
                         completion: { image in

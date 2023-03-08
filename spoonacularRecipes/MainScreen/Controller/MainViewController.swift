@@ -55,10 +55,8 @@ private extension MainViewController {
         NetworkService.shared.fetchRecipesPopularity { result in
             switch result {
             case .success(let data):
-                if let result = data as? ResultData {
-                    DispatchQueue.main.async {
-                        self.listOfRecipes = result.results
-                    }
+                DispatchQueue.main.async {
+                    self.listOfRecipes = data.results
                 }
             case .failure(_):
                 print("Error, .....")

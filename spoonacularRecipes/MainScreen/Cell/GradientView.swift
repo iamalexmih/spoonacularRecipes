@@ -9,7 +9,7 @@ import UIKit
 
 final class GradientView: UIView {
     private var gradientLayer = CAGradientLayer()
-
+    
     override public func layoutSubviews() {
         super.layoutSubviews()
         

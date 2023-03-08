@@ -49,7 +49,12 @@ extension PopularCell {
             foodImageView.image = UIImage(named: "beverage")
         }
         else {
-            foodImageView.kf.setImage(with: URL(string: image))
+            let processor = RoundCornerImageProcessor(cornerRadius: 20)
+            foodImageView.kf.setImage(with: URL(string: image), placeholder: UIImage(systemName: "xmark"),
+            options: [
+                .processor(processor),
+                .transition(.fade(1))
+            ])
         }
     }
 }

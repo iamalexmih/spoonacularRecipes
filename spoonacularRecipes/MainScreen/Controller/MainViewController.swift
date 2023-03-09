@@ -24,6 +24,8 @@ class MainViewController: UIViewController {
         setupTableView()
         setLayout()
         getPopularRecipes()
+        FavoriteRecipe.shared.favoriteListIdRecipe = DataManager.shared.getFavoriteRecipesID()
+        print("favoriteListIdRecipe ",FavoriteRecipe.shared.favoriteListIdRecipe)
     }
 }
 
@@ -89,7 +91,8 @@ extension MainViewController: UITableViewDataSource {
         if !listOfRecipes.isEmpty {
             let text = listOfRecipes[indexPath.row].title
             let imageName = listOfRecipes[indexPath.row].image
-            cell.configureCell(title: text, image: imageName)
+            let idRecipe = listOfRecipes[indexPath.row].id
+            cell.configureCell(text, imageName, idRecipe)
         } else {
             print("не удалось сконфигурировать ячейку")
         }

@@ -15,6 +15,7 @@
 		1173B46429B2060A00300306 /* RecipeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1173B46329B2060A00300306 /* RecipeData.swift */; };
 		11BCDF6029B484C40062D9C2 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 11BCDF5F29B484C40062D9C2 /* Kingfisher */; };
 		63C10ECC29B0ED8100507CF8 /* PopularCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C10ECB29B0ED8100507CF8 /* PopularCell.swift */; };
+		B532F1EA29BA30A9006E5685 /* FavoriteRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B532F1E929BA30A9006E5685 /* FavoriteRecipe.swift */; };
 		B5B96ACE29ACD240009B31BB /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B96ACD29ACD240009B31BB /* NetworkService.swift */; };
 		B5FC5B8D29ACA0E40083631C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FC5B8C29ACA0E40083631C /* AppDelegate.swift */; };
 		B5FC5B8F29ACA0E40083631C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FC5B8E29ACA0E40083631C /* SceneDelegate.swift */; };
@@ -39,6 +40,7 @@
 		11220BAA29B22ED400BF9851 /* RecipeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeError.swift; sourceTree = "<group>"; };
 		1173B46329B2060A00300306 /* RecipeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeData.swift; sourceTree = "<group>"; };
 		63C10ECB29B0ED8100507CF8 /* PopularCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularCell.swift; sourceTree = "<group>"; };
+		B532F1E929BA30A9006E5685 /* FavoriteRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteRecipe.swift; sourceTree = "<group>"; };
 		B5B96ACD29ACD240009B31BB /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		B5FC5B8929ACA0E40083631C /* spoonacularRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = spoonacularRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5FC5B8C29ACA0E40083631C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				B5FC5BA829ACA40B0083631C /* FavoriteViewController.swift */,
+				B532F1E929BA30A9006E5685 /* FavoriteRecipe.swift */,
 			);
 			path = FavoriteScreen;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				F63C656729B74C3500A6DB73 /* GradientView.swift in Sources */,
 				1173B46429B2060A00300306 /* RecipeData.swift in Sources */,
 				F6DDB3E029BA120500590588 /* Array+Extensions.swift in Sources */,
+				B532F1EA29BA30A9006E5685 /* FavoriteRecipe.swift in Sources */,
 				63C10ECC29B0ED8100507CF8 /* PopularCell.swift in Sources */,
 				10A8E4DF29AD6054009D2134 /* CateroryCell.swift in Sources */,
 				B5FC5BA729ACA3EC0083631C /* DetailRecipeViewController.swift in Sources */,

@@ -18,6 +18,7 @@ class PopularCell: UITableViewCell {
     private let offset: CGFloat = 20
     private let heightCell: CGFloat = 200
     private let radius: CGFloat = 20
+    private var idRecipe: Int = 0
     
     var delegate: PopularCellDelegate?
     
@@ -52,24 +53,36 @@ class PopularCell: UITableViewCell {
     
     
     @objc func heartButtonPressed(_ sender: UIButton) {
-        animateButton(sender, playing: true)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.animateButton(sender, playing: false)
-            sender.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        if FavoriteRecipe.shared.favoriteListIdRecipe.contains(idRecipe) {
+            heartButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            if let index = FavoriteRecipe.shared.favoriteListIdRecipe.firstIndex(of: idRecipe) {
+                FavoriteRecipe.shared.favoriteListIdRecipe.remove(at: index)
+            }
+        } else {
+            FavoriteRecipe.shared.favoriteListIdRecipe.append(idRecipe)
+            heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         }
         
-        delegate?.didPressFavoriteButton(self, button: sender)
+//        delegate?.didPressFavoriteButton(self, button: sender)
+        
+        DataManager.shared.save(favoriteRecipesID: FavoriteRecipe.shared.favoriteListIdRecipe)
     }
     
     
-    func configureCell(title: String, image: String) {
+    func configureCell(_ title: String, _ image: String, _ idRecipe: Int) {
         titleLabel.text = title
+        self.idRecipe = idRecipe
         if !image.contains("https") {
             foodImageView.image = UIImage(named: "beverage")
-        }
-        else {
+        } else {
             foodImageView.kf.setImage(with: URL(string: image))
+        }
+        
+        if FavoriteRecipe.shared.favoriteListIdRecipe.contains(idRecipe) {
+            heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else {
+            heartButton.setImage(UIImage(systemName: "heart"), for: .normal)
         }
     }
 }
@@ -121,21 +134,6 @@ private extension PopularCell {
         titleLabel.text = "How to make yam & vegetable sauce at home"
         titleLabel.numberOfLines = 0
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    
-    func animateButton(_ sender: UIButton, playing: Bool) {
-        if playing {
-            UIView.animate(withDuration: 0.5,
-                           delay: 0,
-                           options: [.autoreverse, .repeat],
-                           animations: { sender.alpha = 0.5 },
-                           completion: nil)
-        } else {
-            UIView.animate(withDuration: 0.5,
-                           animations: { sender.alpha = 1 },
-                           completion: nil)
-        }
     }
 }
 

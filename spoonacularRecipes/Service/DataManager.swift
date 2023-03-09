@@ -18,6 +18,6 @@ class DataManager {
     }
     
     func getFavoriteRecipesID() -> [Int] {
-        return UserDefaults.standard.array(forKey: key) as! [Int]
+        return UserDefaults.standard.array(forKey: key) as? [Int] ?? []
     }
 }

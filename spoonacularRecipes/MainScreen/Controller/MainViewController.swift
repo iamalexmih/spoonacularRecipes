@@ -9,13 +9,15 @@ import UIKit
 
 class MainViewController: UIViewController {
     
+    private let heightCell: CGFloat = 100
+    
     var listOfRecipes: [RecipeCard] = [] {
         didSet {
             tableView.reloadData()
         }
     }
     
-    let tableView = UITableView()
+    let tableView = UITableView(frame: .zero, style: .plain)
     var sectionName = "Popular Recipes"
     
     override func viewDidLoad() {
@@ -73,6 +75,10 @@ extension MainViewController: UITableViewDelegate {
             print("не удалось получить ИД и осуществить переход на DetailRecipeViewController")
         }
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return heightCell
+    }
 }
 
 
@@ -84,7 +90,7 @@ extension MainViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PopularCell.self), for: indexPath) as! PopularCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MainCell.self), for: indexPath) as! MainCell
         
         cell.delegate = self
         
@@ -113,9 +119,9 @@ private extension MainViewController {
     
     func setupTableView() {
         tableView.separatorStyle = .none
-        tableView.estimatedRowHeight = 200
+        tableView.estimatedRowHeight = heightCell
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(PopularCell.self, forCellReuseIdentifier: String(describing: PopularCell.self))
+        tableView.register(MainCell.self, forCellReuseIdentifier: String(describing: MainCell.self))
         tableView.dataSource = self
         tableView.delegate = self
     }

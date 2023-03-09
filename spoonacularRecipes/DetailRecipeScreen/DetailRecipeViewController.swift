@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class DetailRecipeViewController: UIViewController {
     var idRecipe: Int? = 715541
@@ -60,23 +61,23 @@ final class DetailRecipeViewController: UIViewController {
         showSpinnerView()
         
         //TODO: Тестовый запрос для проверки работоспособности (Потом удалить)
-//            Этот тестовый метод писал Паша.
+        //            Этот тестовый метод писал Паша.
         // test
-//        if let id = idRecipe {
-//            NetworkService.shared.fetchRecipes(byIDs: [id]) { result in
-//                switch result {
-//                case .success(let data):
-//                    if let safeData = data as? [DetailRecipe],
-//                       let oneRecip = safeData.first {
-//                        let title = oneRecip.title
-//                        let min = oneRecip.readyInMinutes ?? 0
-//                        print("title = \(title), min = \(min)")
-//                    }
-//                case .failure(_):
-//                    break
-//                }
-//            }
-//        }
+        //        if let id = idRecipe {
+        //            NetworkService.shared.fetchRecipes(byIDs: [id]) { result in
+        //                switch result {
+        //                case .success(let data):
+        //                    if let safeData = data as? [DetailRecipe],
+        //                       let oneRecip = safeData.first {
+        //                        let title = oneRecip.title
+        //                        let min = oneRecip.readyInMinutes ?? 0
+        //                        print("title = \(title), min = \(min)")
+        //                    }
+        //                case .failure(_):
+        //                    break
+        //                }
+        //            }
+        //        }
     }
 }
 
@@ -109,7 +110,7 @@ private extension DetailRecipeViewController {
     func applyStyleButton(
         _ button: [UIButton],
         tintColor: UIColor = .white,
-        backgroundColor: UIColor = UIColor(named: "colorButton") ?? .clear,
+        backgroundColor: UIColor = UIColor(named: "buttonColor") ?? .clear,
         radius: CGFloat = 0
     ) {
         button.forEach { item in
@@ -138,22 +139,32 @@ private extension DetailRecipeViewController {
                     guard let self = self else { return }
                     let recipe = arrayWithOneRecipe.first
                     guard let recipe else { return }
-                    self.source = .init(from: recipe)
-                    self.getImage(
-                        urlString: self.source?.image,
-                        completion: { image in
-                            self.imageView.image = image
-                            self.dismissSpinnerView()
-                        })
-                    let minutes = String(self.source?.readyInMinutes ?? 0)
-                    self.readyLabel.text = "\(minutes) minutes"
-                    self.titleLabel.text = self.source?.title
-                    self.setupButton()
-                    self.tableView.reloadData()
+                    self.updateUI(recipe)
+                    self.dismissSpinnerView()
                 }
-            case .failure(_): break
+            case .failure(let error):
+                self.showAlert(with: error)
             }
         }
+    }
+    
+    func updateUI(_ recipe: DetailRecipe) {
+        self.source = .init(from: recipe)
+        let processor = RoundCornerImageProcessor(cornerRadius: 20)
+        if let imageURLString = source?.image {
+            let imageURL = URL(string: imageURLString)
+            imageView.kf.setImage(
+                with: imageURL,
+                placeholder: UIImage(named: "placeholder.jpg"),
+                options: [.processor(processor)]
+            )
+        }
+        
+        let minutes = String(source?.readyInMinutes ?? 0)
+        readyLabel.text = "\(minutes) minutes"
+        titleLabel.text = source?.title
+        setupButton()
+        tableView.reloadData()
     }
     
     func getImage(urlString: String?, completion: @escaping (UIImage?) -> Void) {
@@ -210,6 +221,14 @@ private extension DetailRecipeViewController {
                            animations: { sender.alpha = 1 },
                            completion: nil)
         }
+    }
+    
+    //MARK: - UIAlertController
+    func showAlert(with error: Error) {
+        let alert = UIAlertController(title: "Что-то пошло не так(", message: "Не удалось загрузить рецепт. Ошибка - \(error)", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Ок", style: .cancel)
+        alert.addAction(action)
+        self.present(alert, animated: true)
     }
     
     //MARK: - UIActivityIndicatorView

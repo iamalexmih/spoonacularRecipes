@@ -109,7 +109,7 @@ private extension DetailRecipeViewController {
     func applyStyleButton(
         _ button: [UIButton],
         tintColor: UIColor = .white,
-        backgroundColor: UIColor = UIColor(named: "ColorButton") ?? .clear,
+        backgroundColor: UIColor = UIColor(named: "colorButton") ?? .clear,
         radius: CGFloat = 0
     ) {
         button.forEach { item in

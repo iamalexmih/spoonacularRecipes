@@ -115,6 +115,7 @@
 		B5B96ACA29ACD20B009B31BB /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				009067DD29BA115D000D062D /* DataManager.swift */,
 				B5B96ACD29ACD240009B31BB /* NetworkService.swift */,
 			);
 			path = Service;
@@ -149,7 +150,6 @@
 				B5FC5BA529ACA3660083631C /* CategoryRecipesScreen */,
 				B5B96ACA29ACD20B009B31BB /* Service */,
 				B5FC5BA129ACA1A30083631C /* Resource */,
-				009067DD29BA115D000D062D /* DataManager.swift */,
 			);
 			path = spoonacularRecipes;
 			sourceTree = "<group>";

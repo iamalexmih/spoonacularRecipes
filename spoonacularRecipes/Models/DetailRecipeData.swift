@@ -21,6 +21,7 @@ struct Instructions: Decodable {
 
 struct Ingredients: Decodable {
     let original: String?
+    var isMarked: Bool?
 }
 
 struct Steps: Decodable {

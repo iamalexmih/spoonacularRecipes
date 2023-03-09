@@ -26,6 +26,8 @@
 		B5FC5BAE29ACB5B40083631C /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FC5BAD29ACB5B40083631C /* TabBarController.swift */; };
 		F63C656729B74C3500A6DB73 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C656629B74C3500A6DB73 /* GradientView.swift */; };
 		F6C559B729B78D060049633A /* SpinnerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C559B629B78D060049633A /* SpinnerViewController.swift */; };
+		F6DDB3DD29BA11A000590588 /* DetailRecipeToDo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DDB3DC29BA11A000590588 /* DetailRecipeToDo.swift */; };
+		F6DDB3E029BA120500590588 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DDB3DF29BA120500590588 /* Array+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +51,8 @@
 		B5FC5BAD29ACB5B40083631C /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		F63C656629B74C3500A6DB73 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		F6C559B629B78D060049633A /* SpinnerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerViewController.swift; sourceTree = "<group>"; };
+		F6DDB3DC29BA11A000590588 /* DetailRecipeToDo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecipeToDo.swift; sourceTree = "<group>"; };
+		F6DDB3DF29BA120500590588 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +86,7 @@
 		1173B46229B2059E00300306 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F6DDB3DC29BA11A000590588 /* DetailRecipeToDo.swift */,
 				00757E8329AF9C6F0044EA2A /* DetailRecipeData.swift */,
 				1173B46329B2060A00300306 /* RecipeData.swift */,
 				11220BAA29B22ED400BF9851 /* RecipeError.swift */,
@@ -101,7 +106,6 @@
 			isa = PBXGroup;
 			children = (
 				63C10ECB29B0ED8100507CF8 /* PopularCell.swift */,
-				F63C656629B74C3500A6DB73 /* GradientView.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -159,6 +163,7 @@
 		B5FC5BA129ACA1A30083631C /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				F6DDB3DE29BA11D800590588 /* Helpers */,
 				B5FC5B9529ACA0E50083631C /* Assets.xcassets */,
 				B5FC5B9A29ACA0E50083631C /* Info.plist */,
 			);
@@ -187,7 +192,6 @@
 			isa = PBXGroup;
 			children = (
 				B5FC5BA629ACA3EC0083631C /* DetailRecipeViewController.swift */,
-				F6C559B629B78D060049633A /* SpinnerViewController.swift */,
 			);
 			path = DetailRecipeScreen;
 			sourceTree = "<group>";
@@ -199,6 +203,16 @@
 				10A8E4D929AD5817009D2134 /* Controller */,
 			);
 			path = CategoryRecipesScreen;
+			sourceTree = "<group>";
+		};
+		F6DDB3DE29BA11D800590588 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				F6DDB3DF29BA120500590588 /* Array+Extensions.swift */,
+				F63C656629B74C3500A6DB73 /* GradientView.swift */,
+				F6C559B629B78D060049633A /* SpinnerViewController.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -280,11 +294,13 @@
 			files = (
 				B5FC5BAB29ACA4230083631C /* CategoryRecipesViewController.swift in Sources */,
 				B5FC5B9129ACA0E40083631C /* MainViewController.swift in Sources */,
+				F6DDB3DD29BA11A000590588 /* DetailRecipeToDo.swift in Sources */,
 				B5FC5B8D29ACA0E40083631C /* AppDelegate.swift in Sources */,
 				11220BAB29B22ED400BF9851 /* RecipeError.swift in Sources */,
 				F6C559B729B78D060049633A /* SpinnerViewController.swift in Sources */,
 				F63C656729B74C3500A6DB73 /* GradientView.swift in Sources */,
 				1173B46429B2060A00300306 /* RecipeData.swift in Sources */,
+				F6DDB3E029BA120500590588 /* Array+Extensions.swift in Sources */,
 				63C10ECC29B0ED8100507CF8 /* PopularCell.swift in Sources */,
 				10A8E4DF29AD6054009D2134 /* CateroryCell.swift in Sources */,
 				B5FC5BA729ACA3EC0083631C /* DetailRecipeViewController.swift in Sources */,

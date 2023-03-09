@@ -149,6 +149,7 @@
 				B5FC5BA329ACA2350083631C /* FavoriteScreen */,
 				B5FC5BA529ACA3660083631C /* CategoryRecipesScreen */,
 				B5B96ACA29ACD20B009B31BB /* Service */,
+				F6DDB3DE29BA11D800590588 /* Helpers */,
 				B5FC5BA129ACA1A30083631C /* Resource */,
 			);
 			path = spoonacularRecipes;
@@ -166,7 +167,6 @@
 		B5FC5BA129ACA1A30083631C /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				F6DDB3DE29BA11D800590588 /* Helpers */,
 				B5FC5B9529ACA0E50083631C /* Assets.xcassets */,
 				B5FC5B9A29ACA0E50083631C /* Info.plist */,
 			);

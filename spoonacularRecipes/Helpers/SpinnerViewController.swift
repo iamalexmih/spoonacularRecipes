@@ -14,10 +14,10 @@ final class SpinnerViewController: UIViewController {
         super.loadView()
         
         view = UIView()
-        view.backgroundColor = UIColor(white: 0, alpha: 0.7)
+        view.backgroundColor = .white
         
         spinner.style = UIActivityIndicatorView.Style.large
-        spinner.color = .white
+        spinner.color = .gray
         spinner.translatesAutoresizingMaskIntoConstraints = false
         spinner.startAnimating()
         view.addSubview(spinner)

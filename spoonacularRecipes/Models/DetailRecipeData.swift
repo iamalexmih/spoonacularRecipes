@@ -11,6 +11,7 @@ struct DetailRecipe: Decodable {
     let readyInMinutes: Int?
     let title: String?
     let image: String?
+    let id: Int?
     let extendedIngredients: [Ingredients]?
     let analyzedInstructions: [Instructions]?
 }

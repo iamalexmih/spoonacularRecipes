@@ -10,7 +10,7 @@ import Kingfisher
 
 
 protocol PopularCellDelegate {
-    func didPressFavoriteButton(_ cell: PopularCell, button: UIButton)
+    func didPressFavoriteButton(_ idRecipe: Int)
 }
 
 class PopularCell: UITableViewCell {
@@ -64,7 +64,7 @@ class PopularCell: UITableViewCell {
             heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         }
         
-//        delegate?.didPressFavoriteButton(self, button: sender)
+        delegate?.didPressFavoriteButton(idRecipe)
         
         DataManager.shared.save(favoriteRecipesID: FavoriteRecipe.shared.favoriteListIdRecipe)
     }

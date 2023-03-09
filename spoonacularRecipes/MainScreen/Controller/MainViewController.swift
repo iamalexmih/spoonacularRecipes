@@ -32,16 +32,16 @@ class MainViewController: UIViewController {
 // MARK: - Delegate for Favorite Button
 
 extension MainViewController: PopularCellDelegate {
-    func didPressFavoriteButton(_ cell: PopularCell, button: UIButton) {
-        print("select recipt: \(cell.titleLabel.text!)")
+    @objc func didPressFavoriteButton(_ idRecipe: Int) {
+        print("select recipt")
     }
 }
 
 
 // MARK: - Network
 
-private extension MainViewController {
-    func getPopularRecipes() {
+extension MainViewController {
+    @objc func getPopularRecipes() {
         // проверка, если есть данные выйдет из метода
         if !listOfRecipes.isEmpty {
             return

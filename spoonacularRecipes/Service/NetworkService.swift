@@ -16,26 +16,10 @@ class NetworkService {
     
     private let baseURL = "https://api.spoonacular.com/recipes"
 //    private let apiKey = "ec302cd3ae2e439b9558cc79d26c5efa"
-    private let apiKey = "8fb252dbc5db455aa22b7c3f5d0a952b"
-//    private let apiKey = "1d725eb876444268ae0f53d1bcbe8b44"
+//    private let apiKey = "8fb252dbc5db455aa22b7c3f5d0a952b"
+    private let apiKey = "1d725eb876444268ae0f53d1bcbe8b44"
     
     
-    //TODO: Удалить если не нужен. Уже не используется. За место него fetchRecipes()
-    // по id, конкретный рецепт
-//    func fetchRecipe(byID id: Int,
-//                     completion: @escaping (Result<Decodable, Error>) -> Void) {
-//        
-//        let urlString = "\(baseURL)/\(id)/information/?apiKey=\(apiKey)"
-//
-//        performRequest(with: urlString, type: DetailRecipe.self) { (result) in
-//            switch result {
-//            case .success(let data):
-//                completion(.success(data))
-//            case .failure(let error):
-//                completion(.failure(error))
-//            }
-//        }
-//    }
     
     // запрос по массиву ID рецептов
     func fetchRecipes(byIDs idArray: [Int], complitionHandler: @escaping (Result<[DetailRecipe], Error>) -> Void) {

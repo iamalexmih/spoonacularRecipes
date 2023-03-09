@@ -72,14 +72,18 @@ class MainCell: UITableViewCell {
     
     
     func configureCell(_ title: String, _ image: String, _ idRecipe: Int) {
+        
         titleLabel.text = title
         self.idRecipe = idRecipe
+        
         if !image.contains("https") {
             foodImageView.image = UIImage(named: "beverage")
         } else {
             foodImageView.kf.setImage(with: URL(string: image))
         }
         
+        // включает и выключает лайк
+        // TODO: сделать чтоб лайк отображался коректно после переиспользования ячейки
         if FavoriteRecipe.shared.favoriteListIdRecipe.contains(idRecipe) {
             heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         } else {
@@ -107,9 +111,10 @@ private extension MainCell {
     
     func setupMainContainer() {
         mainContainer.translatesAutoresizingMaskIntoConstraints = false
-        mainContainer.backgroundColor = .systemGray6
-        mainContainer.layer.cornerRadius = radius / 2
-        mainContainer.clipsToBounds = true
+//        mainContainer.layer.cornerRadius = radius / 2
+//        mainContainer.layer.borderColor = UIColor.lightGray.cgColor
+//        mainContainer.layer.borderWidth = 1
+//        mainContainer.clipsToBounds = true
         contentView.addSubview(mainContainer)
     }
     
@@ -125,9 +130,13 @@ private extension MainCell {
     
     
     func setupHeartButton() {
-        heartButton.setImage(UIImage(systemName: "heart"), for: .normal)
         heartButton.translatesAutoresizingMaskIntoConstraints = false
-        heartButton.tintColor = .red
+        
+        let config = UIImage.SymbolConfiguration(pointSize: 40, weight: .heavy, scale: .large)
+        let image = UIImage(systemName: "heart", withConfiguration: config)
+        
+        heartButton.setImage(image, for: .normal)
+        heartButton.tintColor = .orangeColor
         heartButton.addTarget(self, action: #selector(heartButtonPressed), for: .touchUpInside)
         
         mainContainer.addSubview(heartButton)
@@ -158,10 +167,10 @@ private extension MainCell {
             foodImageView.leadingAnchor.constraint(equalTo: mainContainer.leadingAnchor),
             foodImageView.bottomAnchor.constraint(equalTo: mainContainer.bottomAnchor),
             
-            titleLabel.topAnchor.constraint(equalTo: mainContainer.topAnchor),
+            titleLabel.topAnchor.constraint(equalTo: mainContainer.topAnchor, constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: foodImageView.trailingAnchor, constant: 8),
             
-            heartButton.widthAnchor.constraint(equalToConstant: 45),
+            heartButton.widthAnchor.constraint(equalToConstant: 60),
             heartButton.topAnchor.constraint(equalTo: mainContainer.topAnchor),
             heartButton.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 4),
             heartButton.trailingAnchor.constraint(equalTo: mainContainer.trailingAnchor),

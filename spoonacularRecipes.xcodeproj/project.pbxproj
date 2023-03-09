@@ -11,6 +11,7 @@
 		009067DE29BA115D000D062D /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009067DD29BA115D000D062D /* DataManager.swift */; };
 		1079E7D029ACBBC300D16854 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 1079E7CF29ACBBC300D16854 /* .gitignore */; };
 		10A6970E29BA81FE0075C8F1 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10A6970D29BA81FE0075C8F1 /* Storyboard.storyboard */; };
+		10A6971029BA95400075C8F1 /* UIColor + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A6970F29BA95400075C8F1 /* UIColor + ext.swift */; };
 		10A8E4DF29AD6054009D2134 /* CateroryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A8E4DE29AD6054009D2134 /* CateroryCell.swift */; };
 		11220BAB29B22ED400BF9851 /* RecipeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11220BAA29B22ED400BF9851 /* RecipeError.swift */; };
 		1173B46429B2060A00300306 /* RecipeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1173B46329B2060A00300306 /* RecipeData.swift */; };
@@ -38,6 +39,7 @@
 		009067DD29BA115D000D062D /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		1079E7CF29ACBBC300D16854 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		10A6970D29BA81FE0075C8F1 /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
+		10A6970F29BA95400075C8F1 /* UIColor + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + ext.swift"; sourceTree = "<group>"; };
 		10A8E4DE29AD6054009D2134 /* CateroryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CateroryCell.swift; sourceTree = "<group>"; };
 		11220BAA29B22ED400BF9851 /* RecipeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeError.swift; sourceTree = "<group>"; };
 		1173B46329B2060A00300306 /* RecipeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeData.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				F6DDB3DF29BA120500590588 /* Array+Extensions.swift */,
 				F63C656629B74C3500A6DB73 /* GradientView.swift */,
 				F6C559B629B78D060049633A /* SpinnerViewController.swift */,
+				10A6970F29BA95400075C8F1 /* UIColor + ext.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				B5FC5BAB29ACA4230083631C /* CategoryRecipesViewController.swift in Sources */,
 				009067DE29BA115D000D062D /* DataManager.swift in Sources */,
 				B5FC5B9129ACA0E40083631C /* MainViewController.swift in Sources */,
+				10A6971029BA95400075C8F1 /* UIColor + ext.swift in Sources */,
 				F6DDB3DD29BA11A000590588 /* DetailRecipeToDo.swift in Sources */,
 				B5FC5B8D29ACA0E40083631C /* AppDelegate.swift in Sources */,
 				11220BAB29B22ED400BF9851 /* RecipeError.swift in Sources */,

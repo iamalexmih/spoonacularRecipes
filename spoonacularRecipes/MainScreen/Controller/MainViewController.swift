@@ -11,6 +11,21 @@ class MainViewController: UIViewController {
     
     private let heightCell: CGFloat = 100
     
+    let searchController = UISearchController(searchResultsController: nil)
+    
+    // проверка есть ли значение в строке поиска
+    var searchBarIsEmpty: Bool {
+        guard let text = searchController.searchBar.text else { return false }
+        return text.isEmpty
+    }
+    
+    // возвращает true ейли строка поиска активирована и не является пустой
+    var isFiltering: Bool {
+        return searchController.isActive && !searchBarIsEmpty
+    }
+    
+    var filtredListOfRecipes: [RecipeCard] = []
+    
     var listOfRecipes: [RecipeCard] = [] {
         didSet {
             tableView.reloadData()
@@ -24,6 +39,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         configureAppearanceScreen()
         setupTableView()
+        setupSearchController()
         setLayout()
         getPopularRecipes()
         FavoriteRecipe.shared.favoriteListIdRecipe = DataManager.shared.getFavoriteRecipesID()
@@ -38,7 +54,6 @@ extension MainViewController: PopularCellDelegate {
         print("select recipt")
     }
 }
-
 
 // MARK: - Network
 
@@ -62,18 +77,14 @@ extension MainViewController {
     }
 }
 
-
 // MARK: - UITableViewDelegate
 
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if !listOfRecipes.isEmpty {
-            let vc = DetailRecipeViewController()
-            vc.idRecipe = listOfRecipes[indexPath.row].id
-            navigationController?.pushViewController(vc, animated: true)
-        } else {
-            print("не удалось получить ИД и осуществить переход на DetailRecipeViewController")
-        }
+        
+        let vc = DetailRecipeViewController()
+        vc.idRecipe = listOfRecipes[indexPath.row].id
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -86,7 +97,12 @@ extension MainViewController: UITableViewDelegate {
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return listOfRecipes.count
+        
+        if isFiltering {
+            return filtredListOfRecipes.count
+        } else {
+            return listOfRecipes.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -94,16 +110,45 @@ extension MainViewController: UITableViewDataSource {
         
         cell.delegate = self
         
-        if !listOfRecipes.isEmpty {
+        switch listOfRecipes.isEmpty {
+        case true:
+            print("не удалось сконфигурировать ячейку")
+        case false where isFiltering == true:
+            
+            let text = filtredListOfRecipes[indexPath.row].title
+            let imageName = filtredListOfRecipes[indexPath.row].image
+            let idRecipe = filtredListOfRecipes[indexPath.row].id
+            
+            cell.configureCell(text, imageName, idRecipe)
+            
+        case false where isFiltering == false:
+            
             let text = listOfRecipes[indexPath.row].title
             let imageName = listOfRecipes[indexPath.row].image
             let idRecipe = listOfRecipes[indexPath.row].id
+            
             cell.configureCell(text, imageName, idRecipe)
-        } else {
-            print("не удалось сконфигурировать ячейку")
+            
+        case false:
+            print("В теории никогда не будет вызван")
         }
         
         return cell
+    }
+}
+
+// MARK: - UISearchResultsUpdating
+
+extension MainViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filtredContentForSearchText(searchController.searchBar.text!)
+    }
+    
+    func filtredContentForSearchText(_ searchText: String) {
+        filtredListOfRecipes = listOfRecipes.filter({ item in
+            return item.title.lowercased().contains(searchText.lowercased())
+        })
+        tableView.reloadData()
     }
 }
 
@@ -115,6 +160,15 @@ private extension MainViewController {
     func configureAppearanceScreen() {
         title = sectionName
         view.backgroundColor = .systemBackground
+    }
+    
+    func setupSearchController() {
+        
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
     }
     
     func setupTableView() {

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00757E8429AF9C6F0044EA2A /* DetailRecipeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00757E8329AF9C6F0044EA2A /* DetailRecipeData.swift */; };
+		009067DE29BA115D000D062D /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009067DD29BA115D000D062D /* DataManager.swift */; };
 		1079E7D029ACBBC300D16854 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 1079E7CF29ACBBC300D16854 /* .gitignore */; };
 		10A8E4DF29AD6054009D2134 /* CateroryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A8E4DE29AD6054009D2134 /* CateroryCell.swift */; };
 		11220BAB29B22ED400BF9851 /* RecipeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11220BAA29B22ED400BF9851 /* RecipeError.swift */; };
@@ -32,6 +33,7 @@
 
 /* Begin PBXFileReference section */
 		00757E8329AF9C6F0044EA2A /* DetailRecipeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecipeData.swift; sourceTree = "<group>"; };
+		009067DD29BA115D000D062D /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		1079E7CF29ACBBC300D16854 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		10A8E4DE29AD6054009D2134 /* CateroryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CateroryCell.swift; sourceTree = "<group>"; };
 		11220BAA29B22ED400BF9851 /* RecipeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeError.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				B5FC5BA529ACA3660083631C /* CategoryRecipesScreen */,
 				B5B96ACA29ACD20B009B31BB /* Service */,
 				B5FC5BA129ACA1A30083631C /* Resource */,
+				009067DD29BA115D000D062D /* DataManager.swift */,
 			);
 			path = spoonacularRecipes;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5FC5BAB29ACA4230083631C /* CategoryRecipesViewController.swift in Sources */,
+				009067DE29BA115D000D062D /* DataManager.swift in Sources */,
 				B5FC5B9129ACA0E40083631C /* MainViewController.swift in Sources */,
 				F6DDB3DD29BA11A000590588 /* DetailRecipeToDo.swift in Sources */,
 				B5FC5B8D29ACA0E40083631C /* AppDelegate.swift in Sources */,

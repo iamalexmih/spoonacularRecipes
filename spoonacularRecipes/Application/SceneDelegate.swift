@@ -20,6 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = TabBarController()
         tabBarController.selectedIndex = 1
         self.window = UIWindow(windowScene: windowScene)
+        self.window?.overrideUserInterfaceStyle = .light
         self.window?.makeKeyAndVisible()
         self.window?.rootViewController = tabBarController
     }

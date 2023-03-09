@@ -153,10 +153,14 @@ private extension DetailRecipeViewController {
         let processor = RoundCornerImageProcessor(cornerRadius: 20)
         if let imageURLString = source?.image {
             let imageURL = URL(string: imageURLString)
+            imageView.contentMode = .scaleAspectFill
             imageView.kf.setImage(
                 with: imageURL,
                 placeholder: UIImage(named: "placeholder.jpg"),
-                options: [.processor(processor)]
+                options: [
+                    .processor(processor),
+                    .transition(.fade(1))
+                ]
             )
         }
         

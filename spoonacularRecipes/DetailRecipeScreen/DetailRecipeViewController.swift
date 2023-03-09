@@ -59,25 +59,6 @@ final class DetailRecipeViewController: UIViewController {
         setupTableView()
         actionButton()
         showSpinnerView()
-        
-        //TODO: Тестовый запрос для проверки работоспособности (Потом удалить)
-        //            Этот тестовый метод писал Паша.
-        // test
-        //        if let id = idRecipe {
-        //            NetworkService.shared.fetchRecipes(byIDs: [id]) { result in
-        //                switch result {
-        //                case .success(let data):
-        //                    if let safeData = data as? [DetailRecipe],
-        //                       let oneRecip = safeData.first {
-        //                        let title = oneRecip.title
-        //                        let min = oneRecip.readyInMinutes ?? 0
-        //                        print("title = \(title), min = \(min)")
-        //                    }
-        //                case .failure(_):
-        //                    break
-        //                }
-        //            }
-        //        }
     }
 }
 

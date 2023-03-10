@@ -14,7 +14,7 @@ enum ButtonStatus {
 }
 
 protocol PopularCellDelegate {
-    func didPressFavoriteButton(_ idRecipe: Int)
+    func didPressFavoriteButton(_ cell: MainCell, likeButton: UIButton, isFavorite status: Bool)
 }
 
 class MainCell: UITableViewCell {
@@ -23,6 +23,8 @@ class MainCell: UITableViewCell {
     private let radius: CGFloat = 20
     private var idRecipe: Int = 0
     private let likeButtonSize: CGFloat = 30
+    
+    var isFavorite = false
     
     var delegate: PopularCellDelegate?
     
@@ -52,30 +54,40 @@ class MainCell: UITableViewCell {
 
     @objc func heartButtonPressed(_ sender: UIButton) {
         
-        if FavoriteRecipe.shared.favoriteListIdRecipe.contains(idRecipe) {
-            
-            heartButton.setImage(UIImage(systemName: "heart"), for: .normal)
-            
-            if let index = FavoriteRecipe.shared.favoriteListIdRecipe.firstIndex(of: idRecipe) {
-                FavoriteRecipe.shared.favoriteListIdRecipe.remove(at: index)
-            }
-            
+        // переключатель для кнопки
+        if isFavorite {
+            status(button: sender, turn: .off)
         } else {
-            FavoriteRecipe.shared.favoriteListIdRecipe.append(idRecipe)
-            heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            status(button: sender, turn: .on)
         }
         
-        delegate?.didPressFavoriteButton(idRecipe)
-        
-        DataManager.shared.save(favoriteRecipesID: FavoriteRecipe.shared.favoriteListIdRecipe)
+        delegate?.didPressFavoriteButton(self, likeButton: sender, isFavorite: isFavorite)
+//
+//        if FavoriteRecipe.shared.favoriteListIdRecipe.contains(idRecipe) {
+//
+//            heartButton.setImage(UIImage(systemName: "heart"), for: .normal)
+//
+//            if let index = FavoriteRecipe.shared.favoriteListIdRecipe.firstIndex(of: idRecipe) {
+//                FavoriteRecipe.shared.favoriteListIdRecipe.remove(at: index)
+//            }
+//
+//        } else {
+//            FavoriteRecipe.shared.favoriteListIdRecipe.append(idRecipe)
+//            heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+//        }
+//
+//        delegate?.didPressFavoriteButton(idRecipe)
+//
+//        DataManager.shared.save(favoriteRecipesID: FavoriteRecipe.shared.favoriteListIdRecipe)
     }
     
     
     func configureCell(title: String, imageName: String, isFavorite: Bool) {
         titleLabel.text = title
         foodImageView.kf.setImage(with: URL(string: imageName))
+        self.isFavorite = isFavorite
                                   
-        if isFavorite {
+        if self.isFavorite {
             status(button: heartButton, turn: .on)
         } else {
             status(button: heartButton, turn: .off)
@@ -89,9 +101,11 @@ class MainCell: UITableViewCell {
         case .on:
             let image = createImage(systemName: "heart.fill", andSize: likeButtonSize)
             button.setImage(image, for: .normal)
+            isFavorite = true
         case .off:
             let image = createImage(systemName: "heart", andSize: likeButtonSize)
             button.setImage(image, for: .normal)
+            isFavorite = false
         }
     }
 }

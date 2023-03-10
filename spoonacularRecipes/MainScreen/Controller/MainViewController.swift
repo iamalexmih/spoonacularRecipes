@@ -55,8 +55,19 @@ class MainViewController: UIViewController {
 // MARK: - Delegate for Favorite Button
 
 extension MainViewController: PopularCellDelegate {
-    @objc func didPressFavoriteButton(_ idRecipe: Int) {
-        print("select recipt")
+    @objc func didPressFavoriteButton(_ cell: MainCell, likeButton: UIButton, isFavorite status: Bool) {
+        if let indexPath = tableView.indexPath(for: cell) {
+            let id = listOfRecipes[indexPath.row].id
+            
+            if status {
+                FavoriteRecipe.shared.favoriteListIdRecipe.append(id)
+            } else {
+                FavoriteRecipe.shared.remove(id: id)
+            }
+            // сохранения массива в UserDefauts
+            let recipesID = FavoriteRecipe.shared.favoriteListIdRecipe
+            DataManager.shared.save(favoriteRecipesID: recipesID)
+        }
     }
 }
 

@@ -96,6 +96,7 @@
 				00757E8329AF9C6F0044EA2A /* DetailRecipeData.swift */,
 				1173B46329B2060A00300306 /* RecipeData.swift */,
 				11220BAA29B22ED400BF9851 /* RecipeError.swift */,
+				B532F1E929BA30A9006E5685 /* FavoriteRecipe.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -191,7 +192,6 @@
 			isa = PBXGroup;
 			children = (
 				B5FC5BA829ACA40B0083631C /* FavoriteViewController.swift */,
-				B532F1E929BA30A9006E5685 /* FavoriteRecipe.swift */,
 			);
 			path = FavoriteScreen;
 			sourceTree = "<group>";

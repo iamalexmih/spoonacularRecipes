@@ -114,25 +114,26 @@ extension MainViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MainCell.self), for: indexPath) as! MainCell
         
         cell.delegate = self
+        let indexRow = indexPath.row
         
         switch listOfRecipes.isEmpty {
         case true:
             print("не удалось сконфигурировать ячейку")
         case false where isFiltering == true:
             
-            let text = filtredListOfRecipes[indexPath.row].title
-            let imageName = filtredListOfRecipes[indexPath.row].image
-            let idRecipe = filtredListOfRecipes[indexPath.row].id
+            let text = filtredListOfRecipes[indexRow].title
+            let imageName = filtredListOfRecipes[indexRow].image
+            let isFavorite = FavoriteRecipe.shared.check(id: filtredListOfRecipes[indexRow].id)
             
-            cell.configureCell(text, imageName, idRecipe)
+            cell.configureCell(title: text, imageName: imageName, isFavorite: isFavorite)
             
         case false where isFiltering == false:
             
-            let text = listOfRecipes[indexPath.row].title
-            let imageName = listOfRecipes[indexPath.row].image
-            let idRecipe = listOfRecipes[indexPath.row].id
+            let text = listOfRecipes[indexRow].title
+            let imageName = listOfRecipes[indexRow].image
+            let isFavorite = FavoriteRecipe.shared.check(id: listOfRecipes[indexRow].id)
             
-            cell.configureCell(text, imageName, idRecipe)
+            cell.configureCell(title: text, imageName: imageName, isFavorite: isFavorite)
             
         case false:
             print("В теории никогда не будет вызван")

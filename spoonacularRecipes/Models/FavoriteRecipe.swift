@@ -14,4 +14,8 @@ class FavoriteRecipe {
     private init() { }
     
     var favoriteListIdRecipe: [Int] = []
+    
+    func check(id: Int) -> Bool {
+        favoriteListIdRecipe.contains(id)
+    }
 }

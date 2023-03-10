@@ -71,19 +71,10 @@ class MainCell: UITableViewCell {
     }
     
     
-    func configureCell(_ title: String, _ image: String, _ idRecipe: Int) {
-        
+    func configureCell(title: String, imageName: String, isFavorite: Bool) {
         titleLabel.text = title
-        self.idRecipe = idRecipe
-        
-        if !image.contains("https") {
-            foodImageView.image = UIImage(named: "beverage")
-        } else {
-            foodImageView.kf.setImage(with: URL(string: image))
-        }
-        
-        let isFavorite = FavoriteRecipe.shared.favoriteListIdRecipe.contains(idRecipe)
-        
+        foodImageView.kf.setImage(with: URL(string: imageName))
+                                  
         if isFavorite {
             status(button: heartButton, turn: .on)
         } else {

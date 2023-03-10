@@ -8,6 +8,10 @@
 import UIKit
 import Kingfisher
 
+enum ButtonStatus {
+    case off
+    case on
+}
 
 protocol PopularCellDelegate {
     func didPressFavoriteButton(_ idRecipe: Int)
@@ -18,6 +22,7 @@ class MainCell: UITableViewCell {
     private let offset: CGFloat = 20
     private let radius: CGFloat = 20
     private var idRecipe: Int = 0
+    private let likeButtonSize: CGFloat = 30
     
     var delegate: PopularCellDelegate?
     
@@ -26,10 +31,8 @@ class MainCell: UITableViewCell {
     let titleLabel = UILabel()
     let foodImageView = UIImageView()
     let heartButton = UIButton(type: .system)
-//    private let containerForCell = UIView()
-//    private var gradientView = GradientView()
-    
-    
+    private let containerForlabel = UIView()
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -37,6 +40,7 @@ class MainCell: UITableViewCell {
         
         setupMainContainer()
         setupFoodImageView()
+        setupContainerForLabel()
         setupTitleLabel()
         setupHeartButton()
         setConstraints()
@@ -45,21 +49,17 @@ class MainCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-//    override func layoutSublayers(of layer: CALayer) {
-//        super.layoutSublayers(of: self.layer)
-//
-//        gradientView = GradientView(frame: titleLabel.bounds)
-//    }
-    
-    
+
     @objc func heartButtonPressed(_ sender: UIButton) {
         
         if FavoriteRecipe.shared.favoriteListIdRecipe.contains(idRecipe) {
+            
             heartButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            
             if let index = FavoriteRecipe.shared.favoriteListIdRecipe.firstIndex(of: idRecipe) {
                 FavoriteRecipe.shared.favoriteListIdRecipe.remove(at: index)
             }
+            
         } else {
             FavoriteRecipe.shared.favoriteListIdRecipe.append(idRecipe)
             heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
@@ -82,39 +82,43 @@ class MainCell: UITableViewCell {
             foodImageView.kf.setImage(with: URL(string: image))
         }
         
-        // включает и выключает лайк
-        // TODO: сделать чтоб лайк отображался коректно после переиспользования ячейки
-        if FavoriteRecipe.shared.favoriteListIdRecipe.contains(idRecipe) {
-            heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        let isFavorite = FavoriteRecipe.shared.favoriteListIdRecipe.contains(idRecipe)
+        
+        if isFavorite {
+            status(button: heartButton, turn: .on)
         } else {
-            heartButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            status(button: heartButton, turn: .off)
+        }
+    }
+    
+    
+    /// Меняет картинку на кнопке ячейки
+    func status(button: UIButton, turn: ButtonStatus) {
+        switch turn {
+        case .on:
+            let image = createImage(systemName: "heart.fill", andSize: likeButtonSize)
+            button.setImage(image, for: .normal)
+        case .off:
+            let image = createImage(systemName: "heart", andSize: likeButtonSize)
+            button.setImage(image, for: .normal)
         }
     }
 }
-
 
 //MARK: - Configure cell Appearance
 
 private extension MainCell {
     
-    
-//    func configureGradientView() {
-//        gradientView.translatesAutoresizingMaskIntoConstraints = false
-//    }
-    
-    
-//    func setupContainerForCell() {
-//        containerForCell.layer.cornerRadius = offset
-//        containerForCell.layer.masksToBounds = true
-//        containerForCell.translatesAutoresizingMaskIntoConstraints = false
-//    }
+    func setupContainerForLabel() {
+        containerForlabel.translatesAutoresizingMaskIntoConstraints = false
+        containerForlabel.backgroundColor = .blackTranslucent
+        mainContainer.addSubview(containerForlabel)
+    }
     
     func setupMainContainer() {
         mainContainer.translatesAutoresizingMaskIntoConstraints = false
-//        mainContainer.layer.cornerRadius = radius / 2
-//        mainContainer.layer.borderColor = UIColor.lightGray.cgColor
-//        mainContainer.layer.borderWidth = 1
-//        mainContainer.clipsToBounds = true
+        mainContainer.layer.cornerRadius = radius
+        mainContainer.clipsToBounds = true
         contentView.addSubview(mainContainer)
     }
     
@@ -122,19 +126,14 @@ private extension MainCell {
         foodImageView.translatesAutoresizingMaskIntoConstraints = false
         foodImageView.contentMode = .scaleAspectFill
         foodImageView.image = UIImage(named: "main course")
-        foodImageView.layer.cornerRadius = radius / 2
         foodImageView.clipsToBounds = true
         
         mainContainer.addSubview(foodImageView)
     }
     
-    
     func setupHeartButton() {
         heartButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        let config = UIImage.SymbolConfiguration(pointSize: 40, weight: .heavy, scale: .large)
-        let image = UIImage(systemName: "heart", withConfiguration: config)
-        
+        let image = createImage(systemName: "heart", andSize: likeButtonSize)
         heartButton.setImage(image, for: .normal)
         heartButton.tintColor = .orangeColor
         heartButton.addTarget(self, action: #selector(heartButtonPressed), for: .touchUpInside)
@@ -142,42 +141,50 @@ private extension MainCell {
         mainContainer.addSubview(heartButton)
     }
     
-    
     func setupTitleLabel() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.textColor = .darkGray
-//        titleLabel.textAlignment = .center
+        titleLabel.textColor = .white
+        titleLabel.textAlignment = .center
         titleLabel.font = .boldSystemFont(ofSize: 20)
         titleLabel.text = "How to make yam & vegetable sauce at home"
         titleLabel.numberOfLines = 2
         
-        mainContainer.addSubview(titleLabel)
+        containerForlabel.addSubview(titleLabel)
+    }
+    
+    func createImage(systemName: String,andSize pointSize: CGFloat) -> UIImage? {
+        let config = UIImage.SymbolConfiguration(pointSize: pointSize, weight: .regular, scale: .default)
+        let image = UIImage(systemName: systemName, withConfiguration: config)
+        return image
     }
     
     func setConstraints() {
-        
         NSLayoutConstraint.activate([
             mainContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2),
             mainContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
             contentView.trailingAnchor.constraint(equalTo: mainContainer.trailingAnchor, constant: 4),
             contentView.bottomAnchor.constraint(equalTo: mainContainer.bottomAnchor, constant: 2),
             
-            foodImageView.widthAnchor.constraint(equalTo: mainContainer.heightAnchor),
             foodImageView.topAnchor.constraint(equalTo: mainContainer.topAnchor),
             foodImageView.leadingAnchor.constraint(equalTo: mainContainer.leadingAnchor),
-            foodImageView.bottomAnchor.constraint(equalTo: mainContainer.bottomAnchor),
+            mainContainer.trailingAnchor.constraint(equalTo: foodImageView.trailingAnchor),
+            mainContainer.bottomAnchor.constraint(equalTo: foodImageView.bottomAnchor),
             
-            titleLabel.topAnchor.constraint(equalTo: mainContainer.topAnchor, constant: 8),
-            titleLabel.leadingAnchor.constraint(equalTo: foodImageView.trailingAnchor, constant: 8),
+            containerForlabel.heightAnchor.constraint(equalTo: mainContainer.heightAnchor, multiplier: 0.2),
+            containerForlabel.leadingAnchor.constraint(equalTo: mainContainer.leadingAnchor),
+            mainContainer.trailingAnchor.constraint(equalTo: containerForlabel.trailingAnchor),
+            mainContainer.bottomAnchor.constraint(equalTo: containerForlabel.bottomAnchor),
             
-            heartButton.widthAnchor.constraint(equalToConstant: 60),
+            titleLabel.topAnchor.constraint(equalTo: containerForlabel.topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: containerForlabel.leadingAnchor, constant: 10),
+            containerForlabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 10),
+            containerForlabel.bottomAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            
+            heartButton.heightAnchor.constraint(equalTo: mainContainer.heightAnchor, multiplier: 0.3),
+            heartButton.widthAnchor.constraint(equalTo: mainContainer.heightAnchor, multiplier: 0.3),
             heartButton.topAnchor.constraint(equalTo: mainContainer.topAnchor),
-            heartButton.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 4),
-            heartButton.trailingAnchor.constraint(equalTo: mainContainer.trailingAnchor),
-            heartButton.bottomAnchor.constraint(equalTo: mainContainer.bottomAnchor)
-            
+            mainContainer.trailingAnchor.constraint(equalTo: heartButton.trailingAnchor),
         ])
-
     }
 }
 

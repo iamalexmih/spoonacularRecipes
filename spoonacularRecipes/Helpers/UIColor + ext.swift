@@ -19,4 +19,8 @@ extension UIColor {
     static var blueColor: UIColor {
         return UIColor(named: "orangeColor") ?? .blue
     }
+    
+    static var blackTranslucent: UIColor {
+        return #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.5)
+    }
 }

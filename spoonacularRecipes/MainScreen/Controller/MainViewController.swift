@@ -9,7 +9,7 @@ import UIKit
 
 class MainViewController: UIViewController {
     
-    private let heightCell: CGFloat = 100
+    private let heightCell: CGFloat = 230
     
     let searchController = UISearchController(searchResultsController: nil)
     
@@ -44,6 +44,11 @@ class MainViewController: UIViewController {
         getPopularRecipes()
         FavoriteRecipe.shared.favoriteListIdRecipe = DataManager.shared.getFavoriteRecipesID()
         print("favoriteListIdRecipe ",FavoriteRecipe.shared.favoriteListIdRecipe)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        tableView.reloadData()
     }
 }
 

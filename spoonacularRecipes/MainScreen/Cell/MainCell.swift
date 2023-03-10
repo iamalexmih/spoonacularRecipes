@@ -19,9 +19,8 @@ protocol PopularCellDelegate {
 
 class MainCell: UITableViewCell {
     
-    private let offset: CGFloat = 20
+    private let offset: CGFloat = 8
     private let radius: CGFloat = 20
-    private var idRecipe: Int = 0
     private let likeButtonSize: CGFloat = 30
     
     var isFavorite = false
@@ -33,7 +32,10 @@ class MainCell: UITableViewCell {
     let titleLabel = UILabel()
     let foodImageView = UIImageView()
     let heartButton = UIButton(type: .system)
+    
     private let containerForlabel = UIView()
+    private let topGradient = UIView()
+    private var gradientView = GradientView()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -43,10 +45,17 @@ class MainCell: UITableViewCell {
         setupMainContainer()
         setupFoodImageView()
         setupContainerForLabel()
+        configureGradientView()
+        setupTopGradient()
         setupTitleLabel()
         setupHeartButton()
         setConstraints()
     }
+    
+    override func layoutSublayers(of layer: CALayer) {
+            super.layoutSublayers(of: self.layer)
+            gradientView = GradientView(frame: topGradient.bounds)
+        }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -114,6 +123,15 @@ class MainCell: UITableViewCell {
 
 private extension MainCell {
     
+    func setupTopGradient() {
+        topGradient.translatesAutoresizingMaskIntoConstraints = false
+        mainContainer.addSubview(topGradient)
+    }
+    
+    func configureGradientView() {
+            gradientView.translatesAutoresizingMaskIntoConstraints = false
+        }
+    
     func setupContainerForLabel() {
         containerForlabel.translatesAutoresizingMaskIntoConstraints = false
         containerForlabel.backgroundColor = .blackTranslucent
@@ -140,7 +158,7 @@ private extension MainCell {
         heartButton.translatesAutoresizingMaskIntoConstraints = false
         let image = createImage(systemName: "heart", andSize: likeButtonSize)
         heartButton.setImage(image, for: .normal)
-        heartButton.tintColor = .orangeColor
+        heartButton.tintColor = .white
         heartButton.addTarget(self, action: #selector(heartButtonPressed), for: .touchUpInside)
         
         mainContainer.addSubview(heartButton)
@@ -165,10 +183,10 @@ private extension MainCell {
     
     func setConstraints() {
         NSLayoutConstraint.activate([
-            mainContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2),
-            mainContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
-            contentView.trailingAnchor.constraint(equalTo: mainContainer.trailingAnchor, constant: 4),
-            contentView.bottomAnchor.constraint(equalTo: mainContainer.bottomAnchor, constant: 2),
+            mainContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: offset / 2),
+            mainContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: offset),
+            contentView.trailingAnchor.constraint(equalTo: mainContainer.trailingAnchor, constant: offset),
+            contentView.bottomAnchor.constraint(equalTo: mainContainer.bottomAnchor, constant: offset / 2),
             
             foodImageView.topAnchor.constraint(equalTo: mainContainer.topAnchor),
             foodImageView.leadingAnchor.constraint(equalTo: mainContainer.leadingAnchor),
@@ -189,6 +207,11 @@ private extension MainCell {
             heartButton.widthAnchor.constraint(equalTo: mainContainer.heightAnchor, multiplier: 0.3),
             heartButton.topAnchor.constraint(equalTo: mainContainer.topAnchor),
             mainContainer.trailingAnchor.constraint(equalTo: heartButton.trailingAnchor),
+            
+            topGradient.heightAnchor.constraint(equalTo: heartButton.heightAnchor),
+            topGradient.topAnchor.constraint(equalTo: mainContainer.topAnchor),
+            topGradient.leadingAnchor.constraint(equalTo: mainContainer.leadingAnchor),
+            mainContainer.trailingAnchor.constraint(equalTo: topGradient.trailingAnchor),
         ])
     }
 }

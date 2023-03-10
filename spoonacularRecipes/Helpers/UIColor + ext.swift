@@ -23,4 +23,12 @@ extension UIColor {
     static var blackTranslucent: UIColor {
         return #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.5)
     }
+    
+    static var selectBarIcon: UIColor {
+        return .white
+    }
+    
+    static var unselectBarIcon: UIColor {
+        return #colorLiteral(red: 0.9978051782, green: 0.9287335873, blue: 0.8530223966, alpha: 1)
+    }
 }

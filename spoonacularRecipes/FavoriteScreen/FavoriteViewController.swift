@@ -13,7 +13,7 @@ class FavoriteViewController: MainViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        title = "Favorite Recipes"
         if countFavorute != FavoriteRecipe.shared.favoriteListIdRecipe.count {
             getPopularRecipes()
         }

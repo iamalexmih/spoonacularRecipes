@@ -13,8 +13,8 @@ enum ButtonStatus {
     case on
 }
 
-protocol PopularCellDelegate {
-    func didPressFavoriteButton(_ cell: MainCell, likeButton: UIButton, isFavorite status: Bool)
+protocol FavoriteRecipeDelegate {
+    func didPressFavoriteButton(isFavorite status: Bool, idRecipe: Int)
 }
 
 class MainCell: UITableViewCell {
@@ -22,10 +22,10 @@ class MainCell: UITableViewCell {
     private let offset: CGFloat = 8
     private let radius: CGFloat = 20
     private let likeButtonSize: CGFloat = 30
+    private var isFavorite = false
+    private var idRecipe = 0
     
-    var isFavorite = false
-    
-    var delegate: PopularCellDelegate?
+    var delegateFavoriteButton: FavoriteRecipeDelegate?
     
     private let mainContainer = UIView()
     
@@ -70,32 +70,24 @@ class MainCell: UITableViewCell {
             status(button: sender, turn: .on)
         }
         
-        delegate?.didPressFavoriteButton(self, likeButton: sender, isFavorite: isFavorite)
-//
-//        if FavoriteRecipe.shared.favoriteListIdRecipe.contains(idRecipe) {
-//
-//            heartButton.setImage(UIImage(systemName: "heart"), for: .normal)
-//
-//            if let index = FavoriteRecipe.shared.favoriteListIdRecipe.firstIndex(of: idRecipe) {
-//                FavoriteRecipe.shared.favoriteListIdRecipe.remove(at: index)
-//            }
-//
-//        } else {
-//            FavoriteRecipe.shared.favoriteListIdRecipe.append(idRecipe)
-//            heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-//        }
-//
-//        delegate?.didPressFavoriteButton(idRecipe)
-//
-//        DataManager.shared.save(favoriteRecipesID: FavoriteRecipe.shared.favoriteListIdRecipe)
+        delegateFavoriteButton?.didPressFavoriteButton(isFavorite: isFavorite, idRecipe: idRecipe)
     }
     
     
-    func configureCell(title: String, imageName: String, isFavorite: Bool) {
+    func configureCell(_ title: String, _ imageName: String, _ isFavorite: Bool, idRecipe: Int) {
         titleLabel.text = title
-        foodImageView.kf.setImage(with: URL(string: imageName))
+        let processor = RoundCornerImageProcessor(cornerRadius: radius)
+        foodImageView.kf.setImage(
+            with: URL(string: imageName),
+            placeholder: UIImage(named: "placeholder.jpg"),
+            options: [
+                .processor(processor),
+                .transition(.fade(1))
+            ]
+        )
+        
         self.isFavorite = isFavorite
-                                  
+        self.idRecipe = idRecipe
         if self.isFavorite {
             status(button: heartButton, turn: .on)
         } else {
@@ -175,7 +167,7 @@ private extension MainCell {
         containerForlabel.addSubview(titleLabel)
     }
     
-    func createImage(systemName: String,andSize pointSize: CGFloat) -> UIImage? {
+    func createImage(systemName: String, andSize pointSize: CGFloat) -> UIImage? {
         let config = UIImage.SymbolConfiguration(pointSize: pointSize, weight: .regular, scale: .default)
         let image = UIImage(systemName: systemName, withConfiguration: config)
         return image

@@ -9,7 +9,9 @@ import UIKit
 import Kingfisher
 
 final class DetailRecipeViewController: UIViewController {
+    var delegateFavoriteButton: FavoriteRecipeDelegate?
     var idRecipe: Int? = 715541
+    var isFavorite = false
     private var source: DetailRecipeTodo?
     private let offset: CGFloat = 20
     
@@ -83,7 +85,7 @@ private extension DetailRecipeViewController {
         heartButton.setImage(largeHeart, for: .normal)
         heartButton.layer.cornerRadius = heartButton.frame.width / 2
         heartButton.layer.backgroundColor = UIColor(named: "orangeColor")?.cgColor
-        heartButton.tintColor = #colorLiteral(red: 0.4521282315, green: 0, blue: 0, alpha: 1)
+        heartButton.tintColor = .white
         heartButton.contentHorizontalAlignment = .center
         heartButton.contentEdgeInsets = UIEdgeInsets(top: 2, left: 0, bottom: 0, right: 0)
     }
@@ -149,6 +151,7 @@ private extension DetailRecipeViewController {
         readyLabel.text = "\(minutes) minutes"
         titleLabel.text = source?.title
         setupButton()
+        loadStatusFavorite()
         tableView.reloadData()
     }
     
@@ -185,28 +188,40 @@ private extension DetailRecipeViewController {
         tableView.reloadData()
     }
     
+    
     @objc func heartButtonPressed(_ sender: UIButton) {
-        animateButton(sender, playing: true)
+        if isFavorite {
+            configureStatusFavorite(button: sender, turn: .off)
+        } else {
+            configureStatusFavorite(button: sender, turn: .on)
+        }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.animateButton(sender, playing: false)
-            sender.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        delegateFavoriteButton?.didPressFavoriteButton(isFavorite: isFavorite, idRecipe: idRecipe ?? 0)
+    }
+
+    func loadStatusFavorite() {
+        if self.isFavorite {
+            configureStatusFavorite(button: heartButton, turn: .on)
+        } else {
+            configureStatusFavorite(button: heartButton, turn: .off)
+        }
+    }
+ 
+    
+    
+    func configureStatusFavorite(button: UIButton, turn: ButtonStatus) {
+        switch turn {
+        case .on:
+            let image = UIImage(systemName: "heart.fill")
+            button.setImage(image, for: .normal)
+            isFavorite = true
+        case .off:
+            let image = UIImage(systemName: "heart")
+            button.setImage(image, for: .normal)
+            isFavorite = false
         }
     }
     
-    func animateButton(_ sender: UIButton, playing: Bool) {
-        if playing {
-            UIView.animate(withDuration: 0.5,
-                           delay: 0,
-                           options: [.autoreverse, .repeat],
-                           animations: { sender.alpha = 0.5 },
-                           completion: nil)
-        } else {
-            UIView.animate(withDuration: 0.5,
-                           animations: { sender.alpha = 1 },
-                           completion: nil)
-        }
-    }
     
     //MARK: - UIAlertController
     func showAlert(with error: Error) {

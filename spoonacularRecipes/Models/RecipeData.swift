@@ -34,36 +34,6 @@ struct RecipeCard: Decodable {
     let image: String
 }
 
-// TODO: Удалить
-//struct RecipeCard: Decodable {
-//
-//    private let id: Int
-//    private let title: String
-//    private let image: String
-//
-//    init(id: Int, title: String, imageName: String) {
-//        self.id = id
-//        self.title = title
-//        self.image = imageName
-//    }
-//}
-
-
-// TODO: Удалить
-//extension RecipeCard {
-//
-//    func getId() -> Int {
-//        return id
-//    }
-//
-//    func getTitle() -> String {
-//        return title
-//    }
-//
-//    func getImage() -> String {
-//        return image
-//    }
-//}
 
 func getAllCategories() -> [RecipeCard] {
     var result: [RecipeCard] = []

@@ -10,7 +10,6 @@ import UIKit
 class MainViewController: UIViewController {
     
     private let heightCell: CGFloat = 230
-    
     let searchController = UISearchController(searchResultsController: nil)
     
     // проверка есть ли значение в строке поиска
@@ -54,20 +53,17 @@ class MainViewController: UIViewController {
 
 // MARK: - Delegate for Favorite Button
 
-extension MainViewController: PopularCellDelegate {
-    @objc func didPressFavoriteButton(_ cell: MainCell, likeButton: UIButton, isFavorite status: Bool) {
-        if let indexPath = tableView.indexPath(for: cell) {
-            let id = listOfRecipes[indexPath.row].id
-            
-            if status {
-                FavoriteRecipe.shared.favoriteListIdRecipe.append(id)
-            } else {
-                FavoriteRecipe.shared.remove(id: id)
-            }
-            // сохранения массива в UserDefauts
-            let recipesID = FavoriteRecipe.shared.favoriteListIdRecipe
-            DataManager.shared.save(favoriteRecipesID: recipesID)
+extension MainViewController: FavoriteRecipeDelegate {
+    @objc func didPressFavoriteButton(isFavorite status: Bool, idRecipe: Int) {
+        if FavoriteRecipe.shared.check(id: idRecipe) {
+            FavoriteRecipe.shared.remove(id: idRecipe)
+        } else {
+            FavoriteRecipe.shared.favoriteListIdRecipe.append(idRecipe)
         }
+        
+        // сохранения массива в UserDefauts
+        let recipesID = FavoriteRecipe.shared.favoriteListIdRecipe
+        DataManager.shared.save(favoriteRecipesID: recipesID)
     }
 }
 
@@ -99,7 +95,10 @@ extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let vc = DetailRecipeViewController()
-        vc.idRecipe = listOfRecipes[indexPath.row].id
+        let selectIdRecipe = listOfRecipes[indexPath.row].id
+        vc.idRecipe = selectIdRecipe
+        vc.isFavorite = FavoriteRecipe.shared.check(id: selectIdRecipe)
+        vc.delegateFavoriteButton = self
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -124,7 +123,7 @@ extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MainCell.self), for: indexPath) as! MainCell
         
-        cell.delegate = self
+        cell.delegateFavoriteButton = self
         let indexRow = indexPath.row
         
         switch listOfRecipes.isEmpty {
@@ -134,17 +133,19 @@ extension MainViewController: UITableViewDataSource {
             
             let text = filtredListOfRecipes[indexRow].title
             let imageName = filtredListOfRecipes[indexRow].image
+            let idRecipe = filtredListOfRecipes[indexRow].id
             let isFavorite = FavoriteRecipe.shared.check(id: filtredListOfRecipes[indexRow].id)
             
-            cell.configureCell(title: text, imageName: imageName, isFavorite: isFavorite)
+            cell.configureCell(text, imageName, isFavorite, idRecipe: idRecipe)
             
         case false where isFiltering == false:
             
             let text = listOfRecipes[indexRow].title
             let imageName = listOfRecipes[indexRow].image
+            let idRecipe = listOfRecipes[indexRow].id
             let isFavorite = FavoriteRecipe.shared.check(id: listOfRecipes[indexRow].id)
             
-            cell.configureCell(title: text, imageName: imageName, isFavorite: isFavorite)
+            cell.configureCell(text, imageName, isFavorite, idRecipe: idRecipe)
             
         case false:
             print("В теории никогда не будет вызван")

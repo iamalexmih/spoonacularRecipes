@@ -16,9 +16,7 @@ class FavoriteViewController: MainViewController {
         title = "Favorite Recipes"
         if countFavorute != FavoriteRecipe.shared.favoriteListIdRecipe.count {
             getPopularRecipes()
-        }
-        
-//        tableView.reloadData() // reloadData делается в MainViewController в didSet для listOfRecipes
+        }        
     }
     
     override func getPopularRecipes() {
@@ -35,21 +33,13 @@ class FavoriteViewController: MainViewController {
         }
     }
     
-    override func didPressFavoriteButton(_ cell: MainCell, likeButton: UIButton, isFavorite status: Bool) {
-        super.didPressFavoriteButton(cell, likeButton: likeButton, isFavorite: status)
-        
-        if let indexPath = tableView.indexPath(for: cell) {
+    override func didPressFavoriteButton(isFavorite status: Bool, idRecipe: Int) {
+        super.didPressFavoriteButton(isFavorite: status, idRecipe: idRecipe)
             if !status {
-                listOfRecipes.remove(at: indexPath.row)
+                listOfRecipes.removeAll { recipe in
+                    recipe.id == idRecipe
+                }
             }
             tableView.reloadData()
-        }
     }
-    
-//    override func didPressFavoriteButton(_ idRecipe: Int) {
-//        listOfRecipes.removeAll { recipe in
-//            recipe.id == idRecipe
-//        }
-//        tableView.reloadData()
-//    }
 }

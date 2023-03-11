@@ -10,8 +10,8 @@ import Foundation
 
 class FavoriteRecipe {
     static let shared = FavoriteRecipe()
-    
     private init() { }
+    
     
     var favoriteListIdRecipe: [Int] = []
     

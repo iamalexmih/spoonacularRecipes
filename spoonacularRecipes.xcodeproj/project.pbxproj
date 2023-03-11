@@ -96,7 +96,6 @@
 				00757E8329AF9C6F0044EA2A /* DetailRecipeData.swift */,
 				1173B46329B2060A00300306 /* RecipeData.swift */,
 				11220BAA29B22ED400BF9851 /* RecipeError.swift */,
-				B532F1E929BA30A9006E5685 /* FavoriteRecipe.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -120,6 +119,7 @@
 		B5B96ACA29ACD20B009B31BB /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				B532F1E929BA30A9006E5685 /* FavoriteRecipe.swift */,
 				009067DD29BA115D000D062D /* DataManager.swift */,
 				B5B96ACD29ACD240009B31BB /* NetworkService.swift */,
 			);
@@ -146,8 +146,8 @@
 		B5FC5B8B29ACA0E40083631C /* spoonacularRecipes */ = {
 			isa = PBXGroup;
 			children = (
-				1173B46229B2059E00300306 /* Models */,
 				B5FC5BAD29ACB5B40083631C /* TabBarController.swift */,
+				1173B46229B2059E00300306 /* Models */,
 				B5FC5BA029ACA18F0083631C /* Application */,
 				B5FC5BA229ACA20F0083631C /* MainScreen */,
 				B5FC5BA429ACA3390083631C /* DetailRecipeScreen */,

@@ -15,9 +15,9 @@ class NetworkService {
     private init() { }
     
     private let baseURL = "https://api.spoonacular.com/recipes"
-//    private let apiKey = "ec302cd3ae2e439b9558cc79d26c5efa"
+    private let apiKey = "ec302cd3ae2e439b9558cc79d26c5efa"
 //    private let apiKey = "8fb252dbc5db455aa22b7c3f5d0a952b"
-    private let apiKey = "1d725eb876444268ae0f53d1bcbe8b44"
+//    private let apiKey = "1d725eb876444268ae0f53d1bcbe8b44"
     
     
     

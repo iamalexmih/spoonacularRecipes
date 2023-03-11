@@ -60,7 +60,6 @@ final class TabBarController: UITabBarController {
                 return self.wrappedInNavigationController(with: categoryRecipesViewController, title: $0.title)
             case .main:
                 let mainViewController = MainViewController()
-//                let mainViewController = TestVC()
                 return self.wrappedInNavigationController(with: mainViewController, title: $0.title)
             case .favourite:
                 let favoriteViewController = FavoriteViewController()

@@ -15,7 +15,7 @@ final class GradientView: UIView {
         
         gradientLayer.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
         gradientLayer.colors = [
-            UIColor.label.withAlphaComponent(0.3).cgColor,
+            UIColor.label.withAlphaComponent(1.0).cgColor,
             UIColor.label.withAlphaComponent(0).cgColor
         ]
 

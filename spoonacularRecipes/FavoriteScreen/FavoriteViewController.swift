@@ -13,7 +13,7 @@ class FavoriteViewController: MainViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        title = "Favorite Recipes"
         if countFavorute != FavoriteRecipe.shared.favoriteListIdRecipe.count {
             getPopularRecipes()
         }
@@ -35,10 +35,21 @@ class FavoriteViewController: MainViewController {
         }
     }
     
-    override func didPressFavoriteButton(_ idRecipe: Int) {
-        listOfRecipes.removeAll { recipe in
-            recipe.id == idRecipe
+    override func didPressFavoriteButton(_ cell: MainCell, likeButton: UIButton, isFavorite status: Bool) {
+        super.didPressFavoriteButton(cell, likeButton: likeButton, isFavorite: status)
+        
+        if let indexPath = tableView.indexPath(for: cell) {
+            if !status {
+                listOfRecipes.remove(at: indexPath.row)
+            }
+            tableView.reloadData()
         }
-        tableView.reloadData()
     }
+    
+//    override func didPressFavoriteButton(_ idRecipe: Int) {
+//        listOfRecipes.removeAll { recipe in
+//            recipe.id == idRecipe
+//        }
+//        tableView.reloadData()
+//    }
 }

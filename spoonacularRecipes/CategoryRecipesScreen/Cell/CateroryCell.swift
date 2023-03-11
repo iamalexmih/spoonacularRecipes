@@ -9,7 +9,7 @@ import UIKit
 
 class CateroryCell: UITableViewCell {
     
-    private let offset: CGFloat = 20
+    private let offset: CGFloat = 8
     private let radius: CGFloat = 20
     
     let containerForlabel = UIView()

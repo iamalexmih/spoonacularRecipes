@@ -16,16 +16,28 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchImage" translatesAutoresizingMaskIntoConstraints="NO" id="ZHT-Hk-ttJ">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                            </imageView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ZHT-Hk-ttJ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="1dE-uc-m7f"/>
+                            <constraint firstItem="ZHT-Hk-ttJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="NRM-Mq-L6d"/>
+                            <constraint firstItem="ZHT-Hk-ttJ" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="eWC-0O-ktf"/>
+                            <constraint firstAttribute="bottom" secondItem="ZHT-Hk-ttJ" secondAttribute="bottom" id="i3e-wn-apq"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52.671755725190835" y="374.64788732394368"/>
         </scene>
     </scenes>
     <resources>
+        <image name="launchImage" width="1024" height="1024"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
